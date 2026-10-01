@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ревью ДЗ — JavaScript LAD 2026</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #151d2b;
+    --text-primary: #f0f4f8;
+    --text-secondary: #b6c2d1;
+    --text-muted: #8da0b5;
+    --border: #24324a;
+    --accent-blue: #38bdf8;
+    --accent-purple: #818cf8;
+    --accent-green: #4ade80;
+    --accent-yellow: #facc15;
+    --accent-red: #f87171;
+    --code-bg: #0d1220;
+    --ok-bg: rgba(74, 222, 128, .14);
+    --warn-bg: rgba(250, 204, 21, .14);
+    --bad-bg: rgba(248, 113, 113, .14);
+    --row-hover: #1a2332;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  }
+  :root[data-theme="light"] {
+    --bg-primary: #f7f9fc;
+    --bg-secondary: #eef2f7;
+    --bg-card: #ffffff;
+    --text-primary: #101828;
+    --text-secondary: #344054;
+    --text-muted: #667085;
+    --border: #d0d5dd;
+    --accent-blue: #0b7ecf;
+    --accent-purple: #5b21b6;
+    --accent-green: #0d8a3d;
+    --accent-yellow: #b5740a;
+    --accent-red: #c42318;
+    --code-bg: #f3f6fa;
+    --ok-bg: rgba(13, 138, 61, .10);
+    --warn-bg: rgba(181, 116, 10, .10);
+    --bad-bg: rgba(196, 35, 24, .10);
+    --row-hover: #e6ebf3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .sheet { max-width: 1040px; margin: 0 auto; padding: 36px 20px; }
+
+  .theme-toggle {
+    position: fixed; right: 20px; top: 20px;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    font-size: 13px; font-family: var(--font-sans);
+  }
+  .theme-toggle:hover { color: var(--accent-blue); }
+
+  .header { display: flex; gap: 16px; align-items: flex-start; }
+  .badge {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    box-shadow: 0 6px 18px rgba(56, 189, 248, .18);
+  }
+  .header-body h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+  .meta { font-size: 14px; color: var(--text-muted); margin: 0; }
+  .meta strong { color: var(--text-secondary); font-weight: 600; }
+  .header-rule {
+    height: 4px; margin: 20px 0 26px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple),
+                var(--accent-green), var(--accent-yellow), var(--accent-red));
+    border-radius: 2px; opacity: .85;
+  }
+
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .legend .key { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: middle; }
+  .legend .key.ok { background: var(--ok-bg); border: 1px solid var(--accent-green); }
+  .legend .key.warn { background: var(--warn-bg); border: 1px solid var(--accent-yellow); }
+  .legend .key.bad { background: var(--bad-bg); border: 1px solid var(--accent-red); }
+
+  h2.section {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 17px; font-weight: 700; margin: 26px 0 12px;
+  }
+  h2.section .tag-hw {
+    font-size: 12px; font-weight: 800; color: var(--text-muted);
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 2px 8px; letter-spacing: .02em;
+  }
+
+  .hint-line { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 14px; }
+
+  /* Обёртка для прокрутки широких таблиц */
+  .table-scroll { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border: 1px solid var(--border); }
+  th, td { padding: 8px 11px; text-align: left; vertical-align: top; }
+  thead th { background: var(--bg-secondary); color: var(--text-secondary); font-weight: 700; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--row-hover); }
+
+  /* Матрица ДЗ: первый столбец студент, дальше по заданию */
+  td.student { font-weight: 700; }
+  td.student .file { display: block; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); }
+  th.tsk { width: 46px; text-align: center; }
+  td.tsk { text-align: center; }
+  td.tsk .st { display: inline-block; width: 24px; height: 24px; line-height: 22px; border-radius: 7px; font-size: 13px; }
+  .st.ok   { background: var(--ok-bg);   color: var(--accent-green);  border: 1px solid var(--accent-green); }
+  .st.warn { background: var(--warn-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .st.bad  { background: var(--bad-bg);  color: var(--accent-red);    border: 1px solid var(--accent-red); }
+  .st.na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--border); }
+  td.comment { min-width: 220px; font-size: 13px; color: var(--text-secondary); }
+  td.comment code, .inline-code {
+    font-family: var(--font-mono); font-size: .88em;
+    background: var(--code-bg); color: var(--accent-blue);
+    border: 1px solid var(--border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+  }
+
+  /* Дашборд */
+  table.dash th.hwcol { text-align: center; }
+  table.dash td.dashcell { text-align: center; }
+  .dash-na { color: var(--text-muted); }
+  .dash-sub { display: block; font-size: 11px; color: var(--text-muted); }
+
+  pre {
+    margin: 8px 0; overflow-x: auto;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+  }
+  pre code { font-family: var(--font-mono); color: var(--text-primary); }
+
+  .empty { color: var(--text-muted); font-style: italic; font-size: 13.5px; }
+
+  /* Навигация по занятиям */
+  .lesson-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+  .lesson-card {
+    display: flex; flex-direction: column; gap: 8px; padding: 14px 16px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  }
+  .lesson-card .l-num { font-size: 13px; font-weight: 800; color: var(--text-muted); }
+  .lesson-card .l-name { font-size: 14.5px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
+  .lesson-card .l-dz { font-size: 12.5px; color: var(--text-secondary); }
+  .lesson-card a.l-btn {
+    display: inline-block; padding: 7px 12px; font-size: 13px; font-weight: 600;
+    color: var(--accent-blue); background: var(--bg-secondary); border: 1px solid var(--accent-blue);
+    border-radius: 8px; text-decoration: none; text-align: center;
+  }
+  .lesson-card a.l-btn:hover { background: var(--accent-blue); color: #fff; }
+  .lesson-card .l-soon {
+    display: inline-block; padding: 7px 12px; font-size: 13px; font-weight: 600;
+    color: var(--text-muted); background: transparent; border: 1px dashed var(--border);
+    border-radius: 8px; text-align: center; cursor: default;
+  }
+
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">🌓 Тема</button>
+
+  <header class="header">
+    <div class="badge">ДЗ</div>
+    <div class="header-body">
+      <h1>Ревью домашних заданий — JavaScript LAD 2026</h1>
+      <p class="meta">Сводный файл на весь поток. Добавляются новые студенты и новые ДЗ · <strong>Блоки:</strong> BaseJS, …</p>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <div class="legend">
+    <span><span class="key ok"></span> выполнено</span>
+    <span><span class="key warn"></span> есть замечание</span>
+    <span><span class="key bad"></span> не выполнено</span>
+    <span>— без кода / не проверялось</span>
+  </div>
+
+  <!-- ============ ДАШБОРД: студенты × ДЗ ============ -->
+  <h2 class="section">Общая сводка (дашборд)</h2>
+  <p class="hint-line">Статус по каждому занятию-ДЗ. Всего в курсе 12 занятий · по каждому студенту заполняется колонка.</p>
+  <div class="table-scroll">
+    <table class="dash">
+      <thead>
+        <tr>
+          <th>Студент</th>
+          <th class="hwcol">Занятие 1<br><span class="dash-sub">ДЗ №1</span></th>
+          <th class="hwcol">Занятие 2</th><th class="hwcol">Занятие 3</th><th class="hwcol">Занятие 4</th>
+          <th class="hwcol">Занятие 5</th><th class="hwcol">Занятие 6</th><th class="hwcol">Занятие 7</th>
+          <th class="hwcol">Занятие 8</th><th class="hwcol">Занятие 9</th><th class="hwcol">Занятие 10</th>
+          <th class="hwcol">Занятие 11</th><th class="hwcol">Занятие 12</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student">Блау Борис Станиславович</td>
+          <td class="dashcell" title="замечания по №2, №4, №5"><span class="st warn">⚠️</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+        </tr>
+        <tr>
+          <td class="student">Кальянов Никита</td>
+          <td class="dashcell" title="замечание по №4 (не обе формы typeof)"><span class="st warn">⚠️</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+        </tr>
+        <tr>
+          <td class="student">Кораблев Борислав Иванович</td>
+          <td class="dashcell"><span class="st ok">✅</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+        </tr>
+        <tr>
+          <td class="student">Новокшонова Наталья Сергеевна</td>
+          <td class="dashcell"><span class="st ok">✅</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+        </tr>
+        <tr>
+          <td class="student">Хан Владислав Станиславович</td>
+          <td class="dashcell" title="9 задач выполнено, 2 с замечанием, 2 без кода"><span class="st warn">⚠️</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+          <td class="dashcell"><span class="dash-na">—</span></td><td class="dashcell"><span class="dash-na">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ============ Навигация по занятиям ============ -->
+  <h2 class="section">Разбор заданий</h2>
+  <p class="hint-line">Подробный разбор по каждому занятию — на отдельной странице. Занятие 1 (ДЗ №1) уже доступно, остальные появятся по мере сдачи.</p>
+
+  <div class="lesson-grid">
+    <div class="lesson-card">
+      <div class="l-num">Занятие 1</div>
+      <div class="l-name">Переменные и типы данных</div>
+      <div class="l-dz">ДЗ №1 · BaseJS</div>
+      <a class="l-btn" href="dz1.html">Разбор →</a>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 2</div>
+      <div class="l-name">ДЗ №2</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 3</div>
+      <div class="l-name">ДЗ №3</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 4</div>
+      <div class="l-name">ДЗ №4</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 5</div>
+      <div class="l-name">ДЗ №5</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 6</div>
+      <div class="l-name">ДЗ №6</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 7</div>
+      <div class="l-name">ДЗ №7</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 8</div>
+      <div class="l-name">ДЗ №8</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 9</div>
+      <div class="l-name">ДЗ №9</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 10</div>
+      <div class="l-name">ДЗ №10</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 11</div>
+      <div class="l-name">ДЗ №11</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+    <div class="lesson-card">
+      <div class="l-num">Занятие 12</div>
+      <div class="l-name">ДЗ №12</div>
+      <div class="l-dz">Ожидается</div>
+      <span class="l-soon">Скоро</span>
+    </div>
+  </div>
+
+  <footer>JavaScript · LAD 2026 — Сводное ревью ДЗ. Последнее обновление: 2026-09-30 · Составил: Сергей</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    function apply(t) {
+      root.dataset.theme = t;
+      try { localStorage.setItem('hw-review-all-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('hw-review-all-theme'); } catch (e) {}
+    if (saved === 'light') apply('light');
+    btn.addEventListener('click', function () {
+      apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
