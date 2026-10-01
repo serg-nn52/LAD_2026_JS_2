@@ -65,13 +65,21 @@
 // console.log(user);
 
 
-let a = 'Sergey';
+// let a = 'Sergey';
 
-a = 10;
+// a = 10;
 
-a= true;
+// a= true;
 
-a = null;
+// a = null;
 
-console.log(typeof a);
-console.log(typeof(a));
+// console.log(typeof a);
+// console.log(typeof(a));
+
+// const result = typeof (2 + 3);
+
+// console.log(result);
+
+const name = 'Natalia';
+name = 'Ivan';
+console.log(name);
