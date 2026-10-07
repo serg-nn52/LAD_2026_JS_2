@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДЗ №2 — Ревью JavaScript LAD 2026</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #151d2b;
+    --text-primary: #f0f4f8;
+    --text-secondary: #b6c2d1;
+    --text-muted: #8da0b5;
+    --border: #24324a;
+    --accent-blue: #38bdf8;
+    --accent-purple: #818cf8;
+    --accent-green: #4ade80;
+    --accent-yellow: #facc15;
+    --accent-red: #f87171;
+    --code-bg: #0d1220;
+    --ok-bg: rgba(74, 222, 128, .14);
+    --warn-bg: rgba(250, 204, 21, .14);
+    --bad-bg: rgba(248, 113, 113, .14);
+    --row-hover: #1a2332;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  }
+  :root[data-theme="light"] {
+    --bg-primary: #f7f9fc;
+    --bg-secondary: #eef2f7;
+    --bg-card: #ffffff;
+    --text-primary: #101828;
+    --text-secondary: #344054;
+    --text-muted: #667085;
+    --border: #d0d5dd;
+    --accent-blue: #0b7ecf;
+    --accent-purple: #5b21b6;
+    --accent-green: #0d8a3d;
+    --accent-yellow: #b5740a;
+    --accent-red: #c42318;
+    --code-bg: #f3f6fa;
+    --ok-bg: rgba(13, 138, 61, .10);
+    --warn-bg: rgba(181, 116, 10, .10);
+    --bad-bg: rgba(196, 35, 24, .10);
+    --row-hover: #e6ebf3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .sheet { max-width: 980px; margin: 0 auto; padding: 36px 20px; }
+
+  .theme-toggle {
+    position: fixed; right: 20px; top: 20px;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    font-size: 13px; font-family: var(--font-sans);
+  }
+  .theme-toggle:hover { color: var(--accent-blue); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 0 20px; padding: 6px 14px; font-size: 13.5px; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; text-decoration: none; cursor: pointer;
+  }
+  .back-link:hover { color: var(--accent-blue); }
+
+  .header { display: flex; gap: 16px; align-items: flex-start; }
+  .badge {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    box-shadow: 0 6px 18px rgba(56, 189, 248, .18);
+  }
+  .header-body h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+  .meta { font-size: 14px; color: var(--text-muted); margin: 0; }
+  .meta strong { color: var(--text-secondary); font-weight: 600; }
+  .header-rule {
+    height: 4px; margin: 20px 0 26px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple),
+                var(--accent-green), var(--accent-yellow), var(--accent-red));
+    border-radius: 2px; opacity: .85;
+  }
+
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .legend .key { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: middle; }
+  .legend .key.ok { background: var(--ok-bg); border: 1px solid var(--accent-green); }
+  .legend .key.warn { background: var(--warn-bg); border: 1px solid var(--accent-yellow); }
+  .legend .key.bad { background: var(--bad-bg); border: 1px solid var(--accent-red); }
+
+  h2.section { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; margin: 26px 0 12px; }
+  .hint-line { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 14px; }
+
+  .table-scroll { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border: 1px solid var(--border); }
+  th, td { padding: 8px 11px; text-align: left; vertical-align: top; }
+  thead th { background: var(--bg-secondary); color: var(--text-secondary); font-weight: 700; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--row-hover); }
+
+  td.student { font-weight: 700; }
+  td.student .file { display: block; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); }
+  th.tsk { width: 46px; text-align: center; }
+  td.tsk { text-align: center; }
+  td.tsk .st { display: inline-block; width: 24px; height: 24px; line-height: 22px; border-radius: 7px; font-size: 13px; }
+  .st.ok   { background: var(--ok-bg);   color: var(--accent-green);  border: 1px solid var(--accent-green); }
+  .st.warn { background: var(--warn-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .st.bad  { background: var(--bad-bg);  color: var(--accent-red);    border: 1px solid var(--accent-red); }
+  .st.na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--border); }
+  td.comment { min-width: 220px; font-size: 13px; color: var(--text-secondary); }
+  td.comment code {
+    font-family: var(--font-mono); font-size: .88em;
+    background: var(--code-bg); color: var(--accent-blue);
+    border: 1px solid var(--border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+  }
+
+  .student-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin: 12px 0; }
+  .student-block h3 { font-size: 15px; font-weight: 700; margin: 0 0 8px; }
+  .student-block h3 .who { color: var(--text-primary); }
+  .student-block h3 .ctx { color: var(--text-muted); font-weight: 500; font-size: 13px; }
+  .student-block p, .student-block li { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  pre {
+    margin: 8px 0; overflow-x: auto;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+  }
+  pre code { font-family: var(--font-mono); color: var(--text-primary); }
+  .note-title { font-weight: 700; color: var(--accent-red); }
+  .note-title.strong { color: var(--accent-green); }
+
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">🌓 Тема</button>
+
+  <a class="back-link" href="review.html">← К сводке</a>
+
+  <header class="header">
+    <div class="badge">№2</div>
+    <div class="header-body">
+      <h1>ДЗ №2 — Git. Среда. Именование переменных.</h1>
+      <p class="meta"><strong>Занятие:</strong> 2 · <strong>Лист заданий:</strong> 2_BaseJS.html · <strong>Окно ревью:</strong> проверено 4 из 5 сдавших</p>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <div class="legend">
+    <span><span class="key ok"></span> выполнено</span>
+    <span><span class="key warn"></span> есть замечание</span>
+    <span><span class="key bad"></span> не выполнено</span>
+    <span>— без кода / не проверялось</span>
+  </div>
+
+  <h2 class="section">Матрица задач</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Студент</th>
+          <th class="tsk" title="Git: clone читает, push — 403 (права)">1.1</th>
+          <th class="tsk" title="Свой репозиторий + ссылка">1.2</th>
+          <th class="tsk" title="Возраст (может быть 0)">2.1</th>
+          <th class="tsk" title="Флаг авторизован">2.2</th>
+          <th class="tsk" title="Список товаров корзины">2.3</th>
+          <th class="tsk" title="Объект книга + свойства">2.4</th>
+          <th class="tsk" title="Сумма после скидок">2.5</th>
+          <th class="tsk" title="ID таймера">2.6</th>
+          <th class="tsk" title="Кнопка открытия модалки">2.7</th>
+          <th class="tsk" title="Попап показан (булев)">2.8</th>
+          <th class="tsk" title="Приветственное сообщение">2.9</th>
+          <th class="tsk" title="Обработчик отправки формы">2.10</th>
+          <th>Комментарий</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student">Хан Владислав Станиславович</td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="userStatus — не булев флаг">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="itemsProduct — согласование числа">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="нет года; суффиксы Book избыточны">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st bad" title="ответа про ID таймера нет">❌</span></td>
+          <td class="tsk"><span class="st warn" title="modalTrigger — по смыслу кнопки, нумерация съехала">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="userWelcome — ок, но welcomeMessage точнее">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Нумерация съехала, №2.6 пропущена.</td>
+        </tr>
+        <tr>
+          <td class="student">Блау Борис Станиславович</td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="опечатка Buscket → Basket">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="не видно «после скидок»; странная формула">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="ожидалось timerId; сниппет бессвязный">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Заметки по 2.3, 2.5, 2.6.</td>
+        </tr>
+        <tr>
+          <td class="student">Кальянов Никита</td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="comment">ДЗ №2 не сдано.</td>
+        </tr>
+        <tr>
+          <td class="student">Кораблев Борислав Иванович</td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="имя верное, но комментарий «значением будет функция»">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="смысл верный, но конвенция handle/on">⚠️</span></td>
+          <td class="comment">Заметки по 2.6, 2.10.</td>
+        </tr>
+        <tr>
+          <td class="student">Новокшонова Наталья Сергеевна</td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="userLoggedIn — без is/has">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="прописные свойства; publicationDate — дата, не год">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="не видно «после скидок»">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="popupOn — не читается как да/нет">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Ссылка на репозиторий есть; заметки по 2.2–2.5, 2.8.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section">Подробные комментарии</h2>
+
+  <div class="student-block">
+    <h3><span class="who">Хан Владислав Станиславович</span> · <span class="ctx">ДЗ №2 · indexhw2_vlad.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> в №1.1 ты понял права верно: «чтобы изменить что-то в чужом репозитории, нужны права и разрешения от владельца» — и приложил вывод ошибки. Верно названы <code>userAge</code> (возраст), <code>finalPrice</code> (сумма со скидками) и <code>handleSubmit</code> (обработчик) — это попадание в эталон.</p>
+
+    <p><span class="note-title strong">№1.2 — засчитано:</span> репозиторий создан, файлы оттуда получены — задание закрыто.</p>
+
+    <p><span class="note-title">Задача про «ID таймера» (№2.6) пропущена:</span> в файле нумерация съехала — ответы идут не в том порядке, что в листе. <code>modalTrigger</code>, <code>isPopupDisplayed</code>, <code>userWelcome</code>, <code>handleSubmit</code> по смыслу подходят под задачи про кнопку, попап, приветствие и обработчик, но подписаны другими номерами, а самого ID таймера нет. Пометь у себя номера заданий точь-в-точь по листу: «переменная, где лежит ID таймера, чтобы его остановить» — это <code>timerId</code>.</p>
+
+    <p><span class="note-title">Имена — уточнения:</span>
+    <br>— №2.2: <code>userStatus</code> — не булев флаг, не читается как «да/нет». Лучше <code>isUserAuthorized</code> / <code>hasAccess</code>.
+    <br>— №2.3: <code>itemsProduct</code> — смешаны «товары» и «продукт»: ожидается <code>cartItems</code> / <code>cartProducts</code> (множественное число, понятно, что список).
+    <br>— №2.4: нет года издания; внутри <code>bookInfo</code> суффиксы <code>titleBook</code>/<code>authorBook</code> избыточны — контекст «книга» уже задан. Проще <code>title</code>, <code>author</code>, <code>publicationYear</code>, <code>pageCount</code>.
+    <br>— №2.9: <code>userWelcome</code> — ок по смыслу, но точнее <code>welcomeMessage</code> / <code>greetingMessage</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Блау Борис Станиславович</span> · <span class="ctx">ДЗ №2 · Homework-2-blau.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> суть №1.1 ты сформулировал верно — клонировать/читать публичный репозиторий может каждый, а писать имеет право только владелец. Имена по большинству задач осмысленные и по делу: <code>personAge</code>, <code>isUserAuthorized</code>, <code>openModalButton</code> (прямое попадание в эталон), <code>isPopUpVisible</code>, <code>greetingsMessage</code>.</p>
+
+    <p><span class="note-title strong">№1.2 — засчитано:</span> репозиторий создан, файлы оттуда получены — задание закрыто.</p>
+
+    <p><span class="note-title">№2.3 — опечатка и имя:</span> <code>itemsBuscket</code> — опечатка: должно быть <code>Basket</code> (или лучше <code>cartItems</code>, чтобы было видно «корзина»). А <code>{items}</code> — псевдокод, а не код.</p>
+
+    <p><span class="note-title">№2.5 — сумма «после скидок»:</span> <code>totalPrice</code> не показывает, что это итог после скидок. Точнее <code>discountedTotal</code> / <code>finalTotal</code>.</p>
+
+    <p><span class="note-title">№2.6 — ID таймера:</span> ожидалось <code>timerId</code>, а не <code>timeInterval</code> — имя должно говорить, что это идентификатор таймера, который позже остановят. Написанный сниппет <code>timeInterval =&gt; { go to the store }, 5000)</code> — бессвязный; число-идентификатор возвращает <code>setInterval</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кальянов Никита</span> · <span class="ctx">ДЗ №2</span></h3>
+
+    <p>Домашнее задание №2 не сдано — файла решения нет. Если нужно продлить или подсказать, что делать, — напиши, разберём по шагам.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кораблев Борислав Иванович</span> · <span class="ctx">ДЗ №2 · index_borislav.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> по именованию — лучшее в группе: <code>userAge</code>, <code>isAuthorized</code>, <code>cartItems</code>, объект <code>book</code> с верными <code>title</code>/<code>author</code>/<code>publishYear</code>/<code>pagesCount</code>, <code>finalPrice</code>, <code>isPopupOpen</code>, <code>greetingMessage</code> — всё в эталон. В №1.1 приложил полный вывод ошибки и объяснил её верно.</p>
+
+    <p><span class="note-title strong">№1.2 — засчитано:</span> репозиторий у тебя есть, файлы оттуда получены — задание закрыто.</p>
+
+    <p><span class="note-title">№2.6 — комментарий неверен:</span> имя <code>intervalId</code> — хорошее (это действительно ID). Но твой комментарий «скорее всего, значением будет функция» — ошибка: <code>setInterval</code> возвращает <strong>число-идентификатор</strong>, а не функцию. (Вдобавок опечатка «Скоре» → «Скорее».)</p>
+
+    <p><span class="note-title">№2.10 — конвенция обработчика:</span> <code>submitRegistrationForm</code> передаёт смысл (действие), но принятый знак обработчика — префикс <code>handle</code>/<code>on</code>: <code>handleSubmitRegistration</code> или <code>onSubmitRegistration</code>. Это первая задача, где ты называл действие, а не данные, — получилось хорошо.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Новокшонова Наталья Сергеевна</span> · <span class="ctx">ДЗ №2 · index2_natalia.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> создан приватный репозиторий — №1.2 закрыт. №2.9 сделан отлично: реальная строка с шаблоном <code>`Добро пожаловать, ${userName}`</code>. Хороши <code>timerID</code>, кнопка открытия окна, <code>onRegistrationSubmit</code>, <code>userAge</code>.</p>
+
+    <p><span class="note-title strong">№2.3 — засчитано, мелочь:</span> <code>itemsList</code> объявлен объектом <code>{...}</code>, а список товаров — это <strong>массив</strong> <code>[]</code> (<code>cartItems</code>). Не ошибка — просто на будущее: для списка товаров корзины используй массив.</p>
+
+    <p><span class="note-title">Имена — уточнения:</span>
+    <br>— №2.2: <code>userLoggedIn</code> — сойдёт, но по конвенции булев лучше с префиксом <code>is</code>: <code>isUserLoggedIn</code>.
+    <br>— №2.4: свойства с большой буквы (<code>Author</code>, <code>Title</code>, <code>Volume</code>) нарушают <code>camelCase</code>; <code>publicationDate</code> — это дата, а в задании год (<code>publicationYear</code>); <code>Volume</code> — расплывчато, точнее <code>pageCount</code>. Само <code>bookDescription</code> — ок.
+    <br>— №2.5: <code>cartSum</code> не показывает «после скидок»; точнее <code>finalTotal</code> / <code>discountedTotal</code>.
+    <br>— №2.8: <code>popupOn</code> — не читается как вопрос «да/нет»; лучше <code>isPopupVisible</code> / <code>isPopupShown</code>.</p>
+  </div>
+
+  <footer>JavaScript · LAD 2026 — Ревью ДЗ №2 · Последнее обновление: 2026-10-07</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    function apply(t) {
+      root.dataset.theme = t;
+      try { localStorage.setItem('hw-review-dz2-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('hw-review-dz2-theme'); } catch (e) {}
+    if (saved === 'light') apply('light');
+    btn.addEventListener('click', function () {
+      apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
