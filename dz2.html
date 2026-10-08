@@ -209,29 +209,29 @@
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st warn" title="опечатка Buscket → Basket">⚠️</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
-          <td class="tsk"><span class="st warn" title="не видно «после скидок»; странная формула">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st warn" title="ожидалось timerId; сниппет бессвязный">⚠️</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
-          <td class="comment">Заметки по 2.3, 2.5, 2.6.</td>
+          <td class="comment">Заметки по 2.3, 2.6.</td>
         </tr>
         <tr>
           <td class="student">Кальянов Никита</td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="comment">ДЗ №2 не сдано.</td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="stateUser — не читается как флаг">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="значения в массиве без кавычек — не строки">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="массив вызовов функций, а не объект">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="modalWindow — это окно, а нужна кнопка">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="isPopupWindow — не отвечает «отображён ли»">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="messageName — нет слова «приветствие»">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Git (1.1–1.2) засчитано; №2.2–2.4, 2.7–2.9 — замечания.</td>
         </tr>
         <tr>
           <td class="student">Кораблев Борислав Иванович</td>
@@ -254,7 +254,7 @@
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
-          <td class="tsk"><span class="st warn" title="userLoggedIn — без is/has">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st warn" title="прописные свойства; publicationDate — дата, не год">⚠️</span></td>
           <td class="tsk"><span class="st warn" title="не видно «после скидок»">⚠️</span></td>
@@ -263,7 +263,7 @@
           <td class="tsk"><span class="st warn" title="popupOn — не читается как да/нет">⚠️</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
           <td class="tsk"><span class="st ok">✅</span></td>
-          <td class="comment">Ссылка на репозиторий есть; заметки по 2.2–2.5, 2.8.</td>
+          <td class="comment">Ссылка на репозиторий есть; заметки по 2.4, 2.5, 2.8.</td>
         </tr>
       </tbody>
     </table>
@@ -296,15 +296,23 @@
 
     <p><span class="note-title">№2.3 — опечатка и имя:</span> <code>itemsBuscket</code> — опечатка: должно быть <code>Basket</code> (или лучше <code>cartItems</code>, чтобы было видно «корзина»). А <code>{items}</code> — псевдокод, а не код.</p>
 
-    <p><span class="note-title">№2.5 — сумма «после скидок»:</span> <code>totalPrice</code> не показывает, что это итог после скидок. Точнее <code>discountedTotal</code> / <code>finalTotal</code>.</p>
-
     <p><span class="note-title">№2.6 — ID таймера:</span> ожидалось <code>timerId</code>, а не <code>timeInterval</code> — имя должно говорить, что это идентификатор таймера, который позже остановят. Написанный сниппет <code>timeInterval =&gt; { go to the store }, 5000)</code> — бессвязный; число-идентификатор возвращает <code>setInterval</code>.</p>
   </div>
 
   <div class="student-block">
-    <h3><span class="who">Кальянов Никита</span> · <span class="ctx">ДЗ №2</span></h3>
+    <h3><span class="who">Кальянов Никита</span> · <span class="ctx">ДЗ №2 · index_nikita.js</span></h3>
 
-    <p>Домашнее задание №2 не сдано — файла решения нет. Если нужно продлить или подсказать, что делать, — напиши, разберём по шагам.</p>
+    <p><span class="note-title strong">Сильные стороны:</span> точные попадания в эталон — <code>userAge</code> (возраст, может быть 0 лет), <code>timerId</code> (ID таймера) и <code>handleFormRegistrationSubmit</code> (обработчик формы). Имена в №2.3–2.4 осмысленные и читаемые.</p>
+
+    <p><span class="note-title strong">№1.1 и №1.2 — засчитано:</span> задание по Git (права на push и свой репозиторий) закрыто.</p>
+
+    <p><span class="note-title">Имена — уточнения:</span>
+    <br>— №2.2: <code>stateUser</code> — булево, но имя не читается как «да/нет»-флаг. Точнее <code>isAuthorized</code>.
+    <br>— №2.3: <code>userCart</code> — массив верный, но значения <code>apple</code>, <code>mandarin</code>, <code>banana</code> <strong>не в кавычках</strong>: попадают не строки, а необъявленные переменные (в рантайме <code>ReferenceError</code>). Запиши строки: <code>['apple', 'mandarin', 'banana']</code>.
+    <br>— №2.4: это не объект — <code>book</code> объявлен <strong>массивом</strong> вызовов функций <code>bookName(...)</code>, <code>author(...)</code> и т.д. Ожидался объект со свойствами: <code>book = { title, author, year, pages }</code>. Сами имена (<code>title</code>/<code>author</code>/<code>year</code>) — верные, вопрос к структуре.
+    <br>— №2.7: <code>modalWindow</code> — это окно, а нужна <strong>кнопка</strong>, которая его открывает: <code>openModalButton</code>.
+    <br>— №2.8: <code>isPopupWindow</code> читается как «попап — это окно», а не «отображён ли попап». Точнее <code>isPopupShown</code> / <code>isPopupVisible</code> (префикс <code>is</code> — верный ход).
+    <br>— №2.9: <code>messageName</code> — нет слова про приветствие. Точнее <code>greetingMessage</code> / <code>welcomeMessage</code>.</p>
   </div>
 
   <div class="student-block">
@@ -326,14 +334,15 @@
 
     <p><span class="note-title strong">№2.3 — засчитано, мелочь:</span> <code>itemsList</code> объявлен объектом <code>{...}</code>, а список товаров — это <strong>массив</strong> <code>[]</code> (<code>cartItems</code>). Не ошибка — просто на будущее: для списка товаров корзины используй массив.</p>
 
+    <p><span class="note-title strong">№2.2 — засчитано, мелочь:</span> <code>userLoggedIn</code> — сойдёт, но по конвенции булев лучше называть с префиксом <code>is</code>: <code>isUserLoggedIn</code>. Не ошибка — на будущее.</p>
+
     <p><span class="note-title">Имена — уточнения:</span>
-    <br>— №2.2: <code>userLoggedIn</code> — сойдёт, но по конвенции булев лучше с префиксом <code>is</code>: <code>isUserLoggedIn</code>.
     <br>— №2.4: свойства с большой буквы (<code>Author</code>, <code>Title</code>, <code>Volume</code>) нарушают <code>camelCase</code>; <code>publicationDate</code> — это дата, а в задании год (<code>publicationYear</code>); <code>Volume</code> — расплывчато, точнее <code>pageCount</code>. Само <code>bookDescription</code> — ок.
     <br>— №2.5: <code>cartSum</code> не показывает «после скидок»; точнее <code>finalTotal</code> / <code>discountedTotal</code>.
     <br>— №2.8: <code>popupOn</code> — не читается как вопрос «да/нет»; лучше <code>isPopupVisible</code> / <code>isPopupShown</code>.</p>
   </div>
 
-  <footer>JavaScript · LAD 2026 — Ревью ДЗ №2 · Последнее обновление: 2026-10-07</footer>
+  <footer>JavaScript · LAD 2026 — Ревью ДЗ №2 · Последнее обновление: 2026-10-08</footer>
 </div>
 
 <script>
