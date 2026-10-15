@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДЗ №3 — Ревью JavaScript LAD 2026</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #151d2b;
+    --text-primary: #f0f4f8;
+    --text-secondary: #b6c2d1;
+    --text-muted: #8da0b5;
+    --border: #24324a;
+    --accent-blue: #38bdf8;
+    --accent-purple: #818cf8;
+    --accent-green: #4ade80;
+    --accent-yellow: #facc15;
+    --accent-red: #f87171;
+    --code-bg: #0d1220;
+    --ok-bg: rgba(74, 222, 128, .14);
+    --warn-bg: rgba(250, 204, 21, .14);
+    --bad-bg: rgba(248, 113, 113, .14);
+    --row-hover: #1a2332;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  }
+  :root[data-theme="light"] {
+    --bg-primary: #f7f9fc;
+    --bg-secondary: #eef2f7;
+    --bg-card: #ffffff;
+    --text-primary: #101828;
+    --text-secondary: #344054;
+    --text-muted: #667085;
+    --border: #d0d5dd;
+    --accent-blue: #0b7ecf;
+    --accent-purple: #5b21b6;
+    --accent-green: #0d8a3d;
+    --accent-yellow: #b5740a;
+    --accent-red: #c42318;
+    --code-bg: #f3f6fa;
+    --ok-bg: rgba(13, 138, 61, .10);
+    --warn-bg: rgba(181, 116, 10, .10);
+    --bad-bg: rgba(196, 35, 24, .10);
+    --row-hover: #e6ebf3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .sheet { max-width: 980px; margin: 0 auto; padding: 36px 20px; }
+
+  .theme-toggle {
+    position: fixed; right: 20px; top: 20px;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    font-size: 13px; font-family: var(--font-sans);
+  }
+  .theme-toggle:hover { color: var(--accent-blue); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 0 20px; padding: 6px 14px; font-size: 13.5px; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; text-decoration: none; cursor: pointer;
+  }
+  .back-link:hover { color: var(--accent-blue); }
+
+  .header { display: flex; gap: 16px; align-items: flex-start; }
+  .badge {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    box-shadow: 0 6px 18px rgba(56, 189, 248, .18);
+  }
+  .header-body h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+  .meta { font-size: 14px; color: var(--text-muted); margin: 0; }
+  .meta strong { color: var(--text-secondary); font-weight: 600; }
+  .header-rule {
+    height: 4px; margin: 20px 0 26px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple),
+                var(--accent-green), var(--accent-yellow), var(--accent-red));
+    border-radius: 2px; opacity: .85;
+  }
+
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .legend .key { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: middle; }
+  .legend .key.ok { background: var(--ok-bg); border: 1px solid var(--accent-green); }
+  .legend .key.warn { background: var(--warn-bg); border: 1px solid var(--accent-yellow); }
+  .legend .key.bad { background: var(--bad-bg); border: 1px solid var(--accent-red); }
+
+  h2.section { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; margin: 26px 0 12px; }
+  .hint-line { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 14px; }
+
+  .table-scroll { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border: 1px solid var(--border); }
+  th, td { padding: 8px 11px; text-align: left; vertical-align: top; }
+  thead th { background: var(--bg-secondary); color: var(--text-secondary); font-weight: 700; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--row-hover); }
+
+  td.student { font-weight: 700; }
+  td.student .file { display: block; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); }
+  th.tsk { width: 46px; text-align: center; }
+  td.tsk { text-align: center; }
+  td.tsk .st { display: inline-block; width: 24px; height: 24px; line-height: 22px; border-radius: 7px; font-size: 13px; }
+  .st.ok   { background: var(--ok-bg);   color: var(--accent-green);  border: 1px solid var(--accent-green); }
+  .st.warn { background: var(--warn-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .st.bad  { background: var(--bad-bg);  color: var(--accent-red);    border: 1px solid var(--accent-red); }
+  .st.na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--border); }
+  td.comment { min-width: 220px; font-size: 13px; color: var(--text-secondary); }
+  td.comment code {
+    font-family: var(--font-mono); font-size: .88em;
+    background: var(--code-bg); color: var(--accent-blue);
+    border: 1px solid var(--border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+  }
+
+  .student-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin: 12px 0; }
+  .student-block h3 { font-size: 15px; font-weight: 700; margin: 0 0 8px; }
+  .student-block h3 .who { color: var(--text-primary); }
+  .student-block h3 .ctx { color: var(--text-muted); font-weight: 500; font-size: 13px; }
+  .student-block p, .student-block li { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  pre {
+    margin: 8px 0; overflow-x: auto;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+  }
+  pre code { font-family: var(--font-mono); color: var(--text-primary); }
+  .note-title { font-weight: 700; color: var(--accent-red); }
+  .note-title.strong { color: var(--accent-green); }
+
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">🌓 Тема</button>
+
+  <a class="back-link" href="review.html">← К сводке</a>
+
+  <header class="header">
+    <div class="badge">№3</div>
+    <div class="header-body">
+      <h1>ДЗ №3 — Условные операторы, логические операторы, switch-case, циклы</h1>
+      <p class="meta"><strong>Занятие:</strong> 3 · <strong>Лист заданий:</strong> 3_BaseJS.html · <strong>Окно ревью:</strong> проверено 5 из 5 сдавших</p>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <div class="legend">
+    <span><span class="key ok"></span> выполнено</span>
+    <span><span class="key warn"></span> есть замечание</span>
+    <span><span class="key bad"></span> не выполнено</span>
+    <span>— без кода / не проверялось</span>
+  </div>
+
+  <h2 class="section">Матрица задач</h2>
+  <p class="hint-line">Наведи на номер задачи или значок — во всплывающей подсказке условие и суть замечания.</p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Студент</th>
+          <th class="tsk" title="a равна нулю">1.1</th>
+          <th class="tsk" title="a больше нуля">1.2</th>
+          <th class="tsk" title="a меньше нуля">1.3</th>
+          <th class="tsk" title="a ≥ 0">1.4</th>
+          <th class="tsk" title="a ≤ 0">1.5</th>
+          <th class="tsk" title="a не равна нулю">1.6</th>
+          <th class="tsk" title="a равна 'test'">1.7</th>
+          <th class="tsk" title="a === '1' (значение и тип)">1.8</th>
+          <th class="tsk" title="test равна true — две формы">2.1</th>
+          <th class="tsk" title="test не равна true — две формы">2.2</th>
+          <th class="tsk" title="0 &lt; a &lt; 5">3.1</th>
+          <th class="tsk" title="a = 0 или 2 → +7, иначе /10">3.2</th>
+          <th class="tsk" title="a ≤ 1 и b ≥ 3 → сумма, иначе разность">3.3</th>
+          <th class="tsk" title="составное || и два &amp;&amp;">3.4</th>
+          <th class="tsk" title="switch: num → пора года в result">4.1</th>
+          <th class="tsk" title="декада месяца">5.1</th>
+          <th class="tsk" title="пора года по месяцу">5.2</th>
+          <th class="tsk" title="первый символ строки">5.3</th>
+          <th class="tsk" title="1..100 — while и for">6.1</th>
+          <th class="tsk" title="11..33 — while и for">6.2</th>
+          <th class="tsk" title="чётные 0..100 — while и for">6.3</th>
+          <th class="tsk" title="сумма 1..100 — while и for">6.4</th>
+          <th class="tsk" title="1000 / 2, пока ≥ 50; итерации в num">7.1</th>
+          <th>Комментарий</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student">Хан Владислав Станиславович<span class="file">indexhw3_vlad.js</span></td>
+          <td class="tsk"><span class="st warn" title="};  перед else → SyntaxError">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="только длинная форма, через ==">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только длинная форма, через !=">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="console.log вместо записи в result">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="mount вместо month">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="только for, нет while">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только for, нет while">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только for, нет while">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только for, нет while">⚠️</span></td>
+          <td class="tsk"><span class="st bad" title="задача не решена">❌</span></td>
+          <td class="comment">№1.1 не запустится; №2 — одна форма; №6 — нет while; №7.1 нет.</td>
+        </tr>
+        <tr>
+          <td class="student">Блау Борис Станиславович<span class="file">homework_3_blau.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="только длинная форма">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только длинная форма">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="выводит Верно/Неверно вместо a + 7 / a / 10">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Сильная работа; №2 — одна форма, №3.2 — не те действия.</td>
+        </tr>
+        <tr>
+          <td class="student">Кальянов Никита<span class="file">index_nikita.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="только длинная форма, через ==">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только длинная форма, через !=">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="выводит Верно/Неверно вместо a + 7 / a / 10">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="case (num = 1) — присваивание, а не значение">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="только for; a без let">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только for; a без let">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="только for; a без let">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="i &lt; 100 → 4950 вместо 5050; только for">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">№2, №3.2, №4.1, №6 — замечания; №6.4 — граница цикла.</td>
+        </tr>
+        <tr>
+          <td class="student">Кораблев Борислав Иванович<span class="file">index_borislav.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="не проверено число 1 — суть задачи">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="case (num = 1) — присваивание; result «протекает»">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="сезоны сдвинуты: март — зима, декабрь — осень">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="n = 1000 без let">⚠️</span></td>
+          <td class="comment">Всё в одном прогоне; №1.8, №4.1, №5.2, №7.1 — замечания.</td>
+        </tr>
+        <tr>
+          <td class="student">Новокшонова Наталья Сергеевна<span class="file">index3_natalia.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Лучшая работа потока; всё засчитано, мелочь по №3.2.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section">Подробные комментарии</h2>
+
+  <div class="student-block">
+    <h3><span class="who">Хан Владислав Станиславович</span> · <span class="ctx">ДЗ №3 · indexhw3_vlad.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> условия в №1.2–1.8 и №3 записаны верно, в №1.8 — строгое <code>===</code>, как и нужно. В №3.4 поставил скобки вокруг каждой пары <code>&amp;&amp;</code> — так условие читается сразу. В №4.1 и №5 добавил <code>default</code>/<code>else</code> на некорректный ввод — хорошая привычка. №6.3 через <code>i % 2 === 0</code> — верно.</p>
+
+    <p><span class="note-title">№1.1 — код не запустится:</span> между <code>}</code> и <code>else</code> стоит <code>;</code>. Точка с запятой закрывает инструкцию <code>if</code>, и <code>else</code> оказывается «висячим» → <code>SyntaxError: Unexpected token 'else'</code> (проверил запуском). Убери <code>;</code> после <code>}</code>:</p>
+    <pre><code>if (a === 0) {
+  console.log('Верно');
+} else {
+  console.log('Неверно');
+}</code></pre>
+
+    <p><span class="note-title">№2.1–2.2 — нужны обе формы:</span> по заданию для каждой задачи два варианта: короткий (<code>if (test)</code> / <code>if (!test)</code>) и длинный (<code>if (test === true)</code> / <code>if (test !== true)</code>). У тебя только длинный, и через нестрогие <code>==</code>/<code>!=</code>. Плюс проверял на <code>test = 0</code>, а по заданию — <code>true</code> и <code>false</code>. С <code>0</code> видно ещё и подвох: <code>0 == true</code> → <code>false</code>, но это уже приведение типов, а не работа с логической переменной.</p>
+
+    <p><span class="note-title">№4.1 — результат в <code>result</code>:</span> по заданию пору года нужно <strong>записать в переменную <code>result</code></strong>, а у тебя сразу <code>console.log</code>. Объяви <code>let result;</code>, в каждом <code>case</code> присваивай <code>result = 'зима'</code> и т.д., а вывод сделай один раз после <code>switch</code>.</p>
+
+    <p><span class="note-title">№5.2 — имя переменной:</span> <code>mount</code> — это «гора/крепление», а месяц — <code>month</code>. Логика при этом верная: декабрь правильно отнесён к зиме.</p>
+
+    <p><span class="note-title strong">№5.3 — засчитано, ответ на твой вопрос:</span> <code>startsWith('a')</code> работает правильно. На занятии подразумевался доступ по индексу — <code>str[0] === 'a'</code> (или <code>str.charAt(0)</code>). Оба способа верные, индекс пригодится дальше — в циклах по строкам.</p>
+
+    <p><span class="note-title">№6.1–6.4 — нет <code>while</code>:</span> по условию каждую задачу нужно решить <strong>дважды</strong> — через <code>while</code> и через <code>for</code>. У тебя только <code>for</code>. Пример для №6.1:</p>
+    <pre><code>let i = 1;
+while (i &lt;= 100) {
+  console.log(i);
+  i++; // без инкремента — бесконечный цикл
+}</code></pre>
+
+    <p><span class="note-title">№7.1 — не сделано:</span> задачи в файле нет. Ожидается: <code>n = 1000</code>, делить на 2, пока <code>n &gt;= 50</code>, считать проходы в <code>num</code> → получится <code>31.25</code> и <code>5</code>.</p>
+
+    <p><span class="note-title">Мелочь:</span> в №1.6 <code>!=</code> работает, но эталон — строгое <code>!==</code>. Привыкай к строгим сравнениям по умолчанию.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Блау Борис Станиславович</span> · <span class="ctx">ДЗ №3 · homework_3_blau.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> аккуратная и полная работа. Везде строгие <code>===</code>/<code>!==</code>; в №1.1 сам подметил вывод («все значения, отличные от 0, выводят Неверно»). В №5.2 декабрь верно в зиме (<code>month === 12 || …</code>) — главный подвох задачи обойдён. Циклы №6 сделаны в обоих вариантах, №6.3 через шаг <code>i += 2</code>. №7.1 — точно по эталону: <code>while (n &gt;= 50)</code>, счётчик в <code>num</code>, ответ <code>31.25</code> и <code>5</code>.</p>
+
+    <p><span class="note-title">№2.1–2.2 — нужны обе формы:</span> есть только длинная запись (<code>test === true</code>, <code>test !== true</code>). Допиши короткую: <code>if (test)</code> и <code>if (!test)</code>. Суть задачи — понять, что короткая форма проверяет «истинность» значения.</p>
+
+    <p><span class="note-title">№3.2 — не те действия:</span> условие <code>a === 0 || a === 2</code> верное, но по заданию в ветках нужно <strong>изменить a</strong>: прибавить 7 или поделить на 10 — и вывести новое значение. У тебя выводится <code>'Верно'</code>/<code>'Неверно'</code>:</p>
+    <pre><code>if (a === 0 || a === 2) {
+  a += 7;
+} else {
+  a /= 10;
+}
+console.log(a); // 5 → 0.5, 0 → 7, -3 → -0.3, 2 → 9</code></pre>
+
+    <p><span class="note-title strong">Мелочь:</span> блок №3.3 продублирован дважды, а между №3.2 и №3.3 остался лишний <code>let test = false;</code>. Не ошибка — просто почисти файл.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кальянов Никита</span> · <span class="ctx">ДЗ №3 · index_nikita.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> каждая задача прогнана на всех значениях из условия, вывод терминала приложен — так видно, что ты действительно запускал код. №1.8 через строгое <code>===</code> — верно. В №5.2 декабрь в зиме, в №5.1 и №5.2 есть ветка на некорректный ввод. №5.3 через <code>switch (string[0])</code> — нестандартно, но корректно. №7.1 — верный ответ: <code>31.25</code> и <code>5</code> итераций.</p>
+
+    <p><span class="note-title">№2.1–2.2 — нужны обе формы:</span> только длинная запись, и через нестрогие <code>==</code>/<code>!=</code>. Допиши короткие <code>if (test)</code> / <code>if (!test)</code>, а в длинных используй <code>===</code>/<code>!==</code>.</p>
+
+    <p><span class="note-title">№3.2 — не те действия:</span> условие верное, но нужно не вывести <code>'Верно'</code>/<code>'Неверно'</code>, а <strong>изменить a</strong>: <code>a += 7</code> или <code>a /= 10</code>, и вывести новое значение (ожидается 5 → 0.5, 0 → 7, -3 → -0.3, 2 → 9).</p>
+
+    <p><span class="note-title">№4.1 — <code>case (num = 1)</code> — это присваивание:</span> в <code>case</code> пишут <strong>значение</strong>, с которым сравнивают: <code>case 1:</code>. Твоя запись <code>(num = 1)</code> перезаписывает <code>num</code> и только поэтому «случайно» совпадает. Если передать, например, <code>num = 7</code>, все <code>case</code> по очереди перезапишут <code>num</code>, и после <code>switch</code> в нём окажется <code>4</code> — данные испорчены.</p>
+    <pre><code>switch (num) {
+  case 1:
+    result = 'зима';
+    break;
+  case 2:
+    result = 'весна';
+    break;
+  // …
+}</code></pre>
+
+    <p><span class="note-title">№6.1–6.3 — нет <code>while</code> и счётчик без <code>let</code>:</span> каждую задачу нужно решить дважды — <code>while</code> и <code>for</code>; у тебя только <code>for</code>. И в <code>for (a = 1; …)</code> переменная <code>a</code> не объявлена — получается неявная глобальная переменная (в строгом режиме — <code>ReferenceError</code>). Пиши <code>for (let i = 1; …)</code>.</p>
+
+    <p><span class="note-title">№6.4 — граница цикла:</span> <code>i &lt; 100</code> не включает 100 → сумма <code>4950</code> вместо <code>5050</code>. Это классическая ошибка «не включаю последнее». Нужно <code>i &lt;= 100</code>. Ты даже вывел <code>4950</code> — сверяй результат с ожиданием (сумма 1..100 = 5050). И здесь тоже нет варианта с <code>while</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span> в №7.1 по заданию счётчик нужно записать в переменную <code>num</code>, у тебя <code>count</code> — имя хорошее, но условие задачи стоит соблюдать. В №5.1 опечатка в строке: «Третья декад».</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кораблев Борислав Иванович</span> · <span class="ctx">ДЗ №3 · index_borislav.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> файл запускается целиком и сам прогоняет все значения из условия через цикл — отличная инженерная идея, проверить можно одной командой. №2 — обе формы (короткая и длинная). №3 все четыре задачи дают ожидаемые ответы (0.5 / 7 / -0.3 / 9 и 4 / 6 / -2). №6 — оба варианта цикла, №7.1 — верный ответ <code>31.25</code> и <code>5</code>.</p>
+
+    <p><span class="note-title">№1.8 — не проверена суть задачи:</span> по условию нужно проверить <code>'1'</code>, <strong><code>1</code></strong> и <code>3</code>. Именно число <code>1</code> показывает разницу между <code>===</code> и <code>==</code> (<code>1 === '1'</code> → <code>false</code>). У тебя вместо него <code>'тест'</code> (скопировано из №1.7). И подпись «Условие a === 1» неверна — в коде <code>a === '1'</code>.</p>
+
+    <p><span class="note-title">№4.1 — <code>case (num = 1)</code> — это присваивание:</span> в <code>case</code> пишут значение: <code>case 1:</code>. Запись <code>(num = 1)</code> перезаписывает <code>num</code>. Проверил: при <code>num = 5</code> выводится <code>«При num = 4 : Сезон - -2»</code> — <code>num</code> испорчен, а в <code>result</code> остался результат из №3.3, потому что одна переменная <code>result</code> используется в двух задачах. Исправь <code>case</code> и сбрасывай <code>result</code> (или заведи отдельную переменную).</p>
+
+    <p><span class="note-title">№5.2 — сезоны сдвинуты:</span> у тебя зима — 1–3, весна — 4–6, лето — 7–9, осень — 10–12. По календарю: зима — 12, 1, 2; весна — 3–5; лето — 6–8; осень — 9–11. Сейчас март попадает в зиму, а декабрь — в осень:</p>
+    <pre><code>if (month === 12 || month &lt;= 2) {
+  console.log('Зима');
+} else if (month &lt;= 5) {
+  console.log('Весна');
+} else if (month &lt;= 8) {
+  console.log('Лето');
+} else {
+  console.log('Осень');
+}</code></pre>
+
+    <p><span class="note-title">№7.1 — переменная без объявления:</span> <code>n = 1000;</code> без <code>let</code> создаёт неявную глобальную переменную (в строгом режиме и в модулях — <code>ReferenceError</code>). Пиши <code>let n = 1000;</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span> по заданию в №1 нужно выводить <code>'Верно'</code>/<code>'Неверно'</code>, у тебя — <code>true</code>/<code>false</code> (суть та же). В №1 и №2 нестрогие <code>==</code>/<code>!=</code> работают, но привыкай к <code>===</code>/<code>!==</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Новокшонова Наталья Сергеевна</span> · <span class="ctx">ДЗ №3 · index3_natalia.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> самая полная работа потока. Каждая задача проверена на всех значениях, результат записан рядом. Везде строгие <code>===</code>/<code>!==</code>. №2 — обе формы (<code>if (test)</code> и <code>if (test === true)</code>). В №5.2 декабрь верно в зиме (<code>month === 12 || month &lt;= 2</code> — прямо по эталону), плюс второй вариант через <code>switch</code> с группировкой <code>case</code> — отличный приём. №6 — оба цикла, в №6.3 два способа (<code>%</code> и шаг <code>+= 2</code>). №6.4 и №7.1 — верные ответы <code>5050</code>, <code>31.25</code> и <code>5</code>.</p>
+
+    <p><span class="note-title strong">№3.2 — засчитано, мелочь:</span> для <code>a = -3</code> в комментарии написано <code>0.3</code>, а на деле <code>-3 / 10</code> → <code>-0.3</code> (проверил запуском). Код верный — просто сверяй комментарий с реальным выводом.</p>
+
+    <p><span class="note-title strong">Мелочь:</span> в строке 170 остался незакомментированный <code>1.</code>, а ниже — <code>let month = 12;</code>. Файл при этом запускается (JS сам ставит <code>;</code> после <code>1.</code>), но такие хвосты лучше убирать.</p>
+  </div>
+
+  <footer>JavaScript · LAD 2026 — Ревью ДЗ №3 · Последнее обновление: 2026-10-15</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    function apply(t) {
+      root.dataset.theme = t;
+      try { localStorage.setItem('hw-review-dz3-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('hw-review-dz3-theme'); } catch (e) {}
+    if (saved === 'light') apply('light');
+    btn.addEventListener('click', function () {
+      apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
