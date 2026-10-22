@@ -343,7 +343,7 @@
 
     <p><span class="note-title strong">Сильные стороны:</span> условия в №1.2–1.8 и №3 записаны верно, в №1.8 — строгое <code>===</code>, как и нужно. В №3.4 поставил скобки вокруг каждой пары <code>&amp;&amp;</code> — так условие читается сразу. В №4.1 и №5 добавил <code>default</code>/<code>else</code> на некорректный ввод — хорошая привычка. №6.3 через <code>i % 2 === 0</code> — верно.</p>
 
-    <p><span class="note-title">№1.1 — код не запустится:</span> между <code>}</code> и <code>else</code> стоит <code>;</code>. Точка с запятой закрывает инструкцию <code>if</code>, и <code>else</code> оказывается «висячим» → <code>SyntaxError: Unexpected token 'else'</code> (проверил запуском). Убери <code>;</code> после <code>}</code>:</p>
+    <p><span class="note-title">№1.1 — код не запустится:</span> между <code>}</code> и <code>else</code> стоит <code>;</code>. Точка с запятой закрывает инструкцию <code>if</code>, и <code>else</code> оказывается «висячим» → <code>SyntaxError: Unexpected token 'else'</code> Убери <code>;</code> после <code>}</code>:</p>
     <pre><code>if (a === 0) {
   console.log('Верно');
 } else {
@@ -418,11 +418,11 @@ console.log(a); // 5 → 0.5, 0 → 7, -3 → -0.3, 2 → 9</code></pre>
   <div class="student-block">
     <h3><span class="who">Кораблев Борислав Иванович</span> · <span class="ctx">ДЗ №3 · index_borislav.js</span></h3>
 
-    <p><span class="note-title strong">Сильные стороны:</span> файл запускается целиком и сам прогоняет все значения из условия через цикл — отличная инженерная идея, проверить можно одной командой. №2 — обе формы (короткая и длинная). №3 все четыре задачи дают ожидаемые ответы (0.5 / 7 / -0.3 / 9 и 4 / 6 / -2). №6 — оба варианта цикла, №7.1 — верный ответ <code>31.25</code> и <code>5</code>.</p>
+    <p><span class="note-title strong">Сильные стороны:</span> файл сам прогоняет все значения из условия через цикл — отличная инженерная идея, проверить можно одной командой. №2 — обе формы (короткая и длинная). №3 все четыре задачи дают ожидаемые ответы (0.5 / 7 / -0.3 / 9 и 4 / 6 / -2). №6 — оба варианта цикла, №7.1 — верный ответ <code>31.25</code> и <code>5</code>.</p>
 
     <p><span class="note-title">№1.8 — не проверена суть задачи:</span> по условию нужно проверить <code>'1'</code>, <strong><code>1</code></strong> и <code>3</code>. Именно число <code>1</code> показывает разницу между <code>===</code> и <code>==</code> (<code>1 === '1'</code> → <code>false</code>). У тебя вместо него <code>'тест'</code> (скопировано из №1.7). И подпись «Условие a === 1» неверна — в коде <code>a === '1'</code>.</p>
 
-    <p><span class="note-title">№4.1 — <code>case (num = 1)</code> — это присваивание:</span> в <code>case</code> пишут значение: <code>case 1:</code>. Запись <code>(num = 1)</code> перезаписывает <code>num</code>. Проверил: при <code>num = 5</code> выводится <code>«При num = 4 : Сезон - -2»</code> — <code>num</code> испорчен, а в <code>result</code> остался результат из №3.3, потому что одна переменная <code>result</code> используется в двух задачах. Исправь <code>case</code> и сбрасывай <code>result</code> (или заведи отдельную переменную).</p>
+    <p><span class="note-title">№4.1 — <code>case (num = 1)</code> — это присваивание:</span> в <code>case</code> пишут значение: <code>case 1:</code>. Запись <code>(num = 1)</code> перезаписывает <code>num</code>. Например, при <code>num = 5</code> выводится <code>«При num = 4 : Сезон - -2»</code> — <code>num</code> испорчен, а в <code>result</code> остался результат из №3.3, потому что одна переменная <code>result</code> используется в двух задачах. Исправь <code>case</code> и сбрасывай <code>result</code> (или заведи отдельную переменную).</p>
 
     <p><span class="note-title">№5.2 — сезоны сдвинуты:</span> у тебя зима — 1–3, весна — 4–6, лето — 7–9, осень — 10–12. По календарю: зима — 12, 1, 2; весна — 3–5; лето — 6–8; осень — 9–11. Сейчас март попадает в зиму, а декабрь — в осень:</p>
     <pre><code>if (month === 12 || month &lt;= 2) {
@@ -445,7 +445,7 @@ console.log(a); // 5 → 0.5, 0 → 7, -3 → -0.3, 2 → 9</code></pre>
 
     <p><span class="note-title strong">Сильные стороны:</span> самая полная работа потока. Каждая задача проверена на всех значениях, результат записан рядом. Везде строгие <code>===</code>/<code>!==</code>. №2 — обе формы (<code>if (test)</code> и <code>if (test === true)</code>). В №5.2 декабрь верно в зиме (<code>month === 12 || month &lt;= 2</code> — прямо по эталону), плюс второй вариант через <code>switch</code> с группировкой <code>case</code> — отличный приём. №6 — оба цикла, в №6.3 два способа (<code>%</code> и шаг <code>+= 2</code>). №6.4 и №7.1 — верные ответы <code>5050</code>, <code>31.25</code> и <code>5</code>.</p>
 
-    <p><span class="note-title strong">№3.2 — засчитано, мелочь:</span> для <code>a = -3</code> в комментарии написано <code>0.3</code>, а на деле <code>-3 / 10</code> → <code>-0.3</code> (проверил запуском). Код верный — просто сверяй комментарий с реальным выводом.</p>
+    <p><span class="note-title strong">№3.2 — засчитано, мелочь:</span> для <code>a = -3</code> в комментарии написано <code>0.3</code>, а на деле <code>-3 / 10</code> → <code>-0.3</code> Код верный — просто сверяй комментарий с реальным выводом.</p>
 
     <p><span class="note-title strong">Мелочь:</span> в строке 170 остался незакомментированный <code>1.</code>, а ниже — <code>let month = 12;</code>. Файл при этом запускается (JS сам ставит <code>;</code> после <code>1.</code>), но такие хвосты лучше убирать.</p>
   </div>

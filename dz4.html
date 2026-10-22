@@ -151,7 +151,7 @@
     <div class="badge">№4</div>
     <div class="header-body">
       <h1>ДЗ №4 — Введение в функции</h1>
-      <p class="meta"><strong>Занятие:</strong> 4 · <strong>Лист заданий:</strong> 4_BaseJS.html · <strong>Окно ревью:</strong> проверено 4 из 5 (Борислав не сдал)</p>
+      <p class="meta"><strong>Занятие:</strong> 4 · <strong>Лист заданий:</strong> 4_BaseJS.html · <strong>Окно ревью:</strong> проверено 5 из 5</p>
     </div>
   </header>
   <div class="header-rule"></div>
@@ -239,21 +239,21 @@
           <td class="comment">Сильная работа; одна ошибка в №4.1.</td>
         </tr>
         <tr>
-          <td class="student">Кораблев Борислав Иванович<span class="file">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="comment">Ссылки на ДЗ №4 нет — не сдано.</td>
+          <td class="student">Кораблев Борислав Иванович<span class="file">index_borislav.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="дни на английском, а нужно по-русски; снова case (num = 1) — присваивание">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="temp без let — неявная глобальная, в строгом режиме ReferenceError">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="target без let — неявная глобальная переменная">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Всё работает; №1.4 — дни по-английски и case с присваиванием, №2.2/№3.2 — переменные без let.</td>
         </tr>
         <tr>
           <td class="student">Новокшонова Наталья Сергеевна<span class="file">index4_natalia.js</span></td>
@@ -281,7 +281,7 @@
   <div class="student-block">
     <h3><span class="who">Хан Владислав Станиславович</span> · <span class="ctx">ДЗ №4 · indexhw4_vlad.js</span></h3>
 
-    <p><span class="note-title strong">Сильные стороны:</span> файл запускается целиком, все функции возвращают верные значения (проверил запуском). №1.3 — со скобками <code>(a - b) / c</code>, подвох с порядком операций обойдён. №1.4 — через объект-словарь с проверкой диапазона, это интересный третий вариант к массиву и <code>switch</code>. №2.2, 2.3, 2.5 — сразу <code>return</code> выражения, без лишних <code>if</code>, это эталон. №3.2 — ровно 148 годов, №3.3 — <code>while</code> с вспомогательной функцией. №4.1 — стрелочная функция, верно.</p>
+    <p><span class="note-title strong">Сильные стороны:</span> все функции возвращают верные значения. №1.3 — со скобками <code>(a - b) / c</code>, подвох с порядком операций обойдён. №1.4 — через объект-словарь с проверкой диапазона, это интересный третий вариант к массиву и <code>switch</code>. №2.2, 2.3, 2.5 — сразу <code>return</code> выражения, без лишних <code>if</code>, это эталон. №3.2 — ровно 148 годов, №3.3 — <code>while</code> с вспомогательной функцией. №4.1 — стрелочная функция, верно.</p>
 
     <p><span class="note-title">№1.1 — имя функции:</span> <code>getReturnNum</code> («получить возвращённое число») не говорит, что функция считает квадрат. Имя должно описывать действие: <code>getSquare</code> / <code>square</code>. И лишняя <code>;</code> сразу после <code>{</code> — не ошибка, но мусор.</p>
 
@@ -305,7 +305,7 @@
 
     <p><span class="note-title strong">Сильные стороны:</span> к каждой задаче записаны тестовые значения и ожидаемые ответы. №1.4 через <code>switch</code> с <code>return</code> в каждом <code>case</code> и <code>default</code> на ошибку — чисто. Задание 3 сделано отлично: <code>getDigitsSum</code> переиспользуется в №3.2 и №3.3 (это и есть ключевой навык ДЗ — композиция), №3.2 оформлен функцией с параметром <code>maxYear</code>, №3.3 через <code>while</code>. №4.1 — стрелочная функция с <code>split → reverse → join</code>.</p>
 
-    <p><span class="note-title">№1.3 — порядок операций (главный подвох задачи):</span> <code>num1 - num2 / num3</code> без скобок сначала делит, потом вычитает. Проверил: для <code>(5, 6, 7)</code> выходит <code>4.14</code> вместо <code>-0.14</code>, для <code>(100, 9, 3)</code> — <code>97</code> вместо <code>30.33</code>. Твой же ответ «97» это и показывает: 100 − 3. Нужно <code>(num1 - num2) / num3</code>. И у функции нет параметров — она читает глобальные переменные, а аргументы при вызове игнорируются:</p>
+    <p><span class="note-title">№1.3 — порядок операций (главный подвох задачи):</span> <code>num1 - num2 / num3</code> без скобок сначала делит, потом вычитает: для <code>(5, 6, 7)</code> выходит <code>4.14</code> вместо <code>-0.14</code>, для <code>(100, 9, 3)</code> — <code>97</code> вместо <code>30.33</code>. Твой же ответ «97» это и показывает: 100 − 3. Нужно <code>(num1 - num2) / num3</code>. И у функции нет параметров — она читает глобальные переменные, а аргументы при вызове игнорируются:</p>
     <pre><code>function subtractAndDivide(a, b, c) {
   return (a - b) / c;
 }
@@ -318,7 +318,7 @@ console.log(subtractAndDivide(100, 9, 3)); // 30.333…</code></pre>
   return a + b &gt; 10;
 }</code></pre>
 
-    <p><span class="note-title">№2.4 — границы:</span> по условию число <strong>больше нуля и меньше 10</strong>, границы исключены. У тебя <code>num &gt;= 0 &amp;&amp; num &lt;= 10</code> → для <code>0</code> и <code>10</code> возвращается <code>true</code> (проверил запуском). Твой тест «10 → True» как раз показывает ошибку. Нужно <code>num &gt; 0 &amp;&amp; num &lt; 10</code>, а имя по заданию — <code>isNumberInRange</code>.</p>
+    <p><span class="note-title">№2.4 — границы:</span> по условию число <strong>больше нуля и меньше 10</strong>, границы исключены. У тебя <code>num &gt;= 0 &amp;&amp; num &lt;= 10</code> → для <code>0</code> и <code>10</code> возвращается <code>true</code> Твой тест «10 → True» как раз показывает ошибку. Нужно <code>num &gt; 0 &amp;&amp; num &lt; 10</code>, а имя по заданию — <code>isNumberInRange</code>.</p>
 
     <p><span class="note-title">№2.1 — имя функции:</span> <code>trueOrFalse</code> описывает тип ответа, а не вопрос. Любая функция-проверка возвращает true/false — важно, <em>что</em> она проверяет: <code>areNumbersEqual</code> / <code>isEqual</code>.</p>
 
@@ -333,7 +333,7 @@ console.log(subtractAndDivide(100, 9, 3)); // 30.333…</code></pre>
 
     <p><span class="note-title strong">Сильные стороны:</span> большой шаг вперёд по сравнению с ДЗ №3. Все функции принимают параметры и возвращают результат, приложен вывод терминала. Имена — точно по смыслу: <code>getSquare</code>, <code>getSubtractAndDivide</code>, <code>areNumbersEqual</code>, <code>isSumGreaterThan10</code>, <code>isNegative</code>, <code>isNumberInRange</code>, <code>isEven</code>, <code>getDigitalRoot</code>. Функции-проверки сразу возвращают условие (<code>return a &gt; 0 &amp;&amp; a &lt; 10</code>) — это эталон. №1.3 со скобками. №1.4 — массив <code>days[a - 1]</code> с проверкой диапазона. №3.2 выводит ещё и количество годов.</p>
 
-    <p><span class="note-title">№4.1 — палиндром ломается на латинице:</span> идея очистить строку (регистр, пробелы, знаки) — отличная, но регулярка <code>/[^а-я0-9]/g</code> удаляет <strong>все символы, кроме кириллицы и цифр</strong>. Для <code>'hello'</code> строка очищается до пустой, <code>'' === ''</code> → <code>true</code> (проверил запуском). Добавь латиницу в диапазон:</p>
+    <p><span class="note-title">№4.1 — палиндром ломается на латинице:</span> идея очистить строку (регистр, пробелы, знаки) — отличная, но регулярка <code>/[^а-я0-9]/g</code> удаляет <strong>все символы, кроме кириллицы и цифр</strong>. Для <code>'hello'</code> строка очищается до пустой, <code>'' === ''</code> → <code>true</code> Добавь латиницу в диапазон:</p>
     <pre><code>const isPalindrome = (str) =&gt; {
   const cleaned = str.toLowerCase().replace(/[^a-zа-яё0-9]/g, '');
   return cleaned === cleaned.split('').reverse().join('');
@@ -347,14 +347,34 @@ isPalindrome('noon');  // true</code></pre>
   </div>
 
   <div class="student-block">
-    <h3><span class="who">Кораблев Борислав Иванович</span> · <span class="ctx">ДЗ №4</span></h3>
-    <p><span class="note-title">Не сдано:</span> ссылки на ДЗ №4 нет. В репозитории <code>lad-homeworks</code> последняя работа — ДЗ №3.</p>
+    <h3><span class="who">Кораблев Борислав Иванович</span> · <span class="ctx">ДЗ №4 · index_borislav.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> все функции возвращают верные значения, в том числе на краевых случаях. Имена — по смыслу: <code>sumOfTwo</code>, <code>subtractAndDivide</code>, <code>isEqual</code>, <code>isSumAbove10</code>, <code>isNegative</code>, <code>isNumberInRange</code>, <code>isEven</code>, <code>getDigitsSum</code>. №1.3 — со скобками. №1.4 — проверка диапазона вынесена в начало функции. №3.2 — функция <code>findYears(year1, year2)</code> с параметрами диапазона и переиспользованием <code>getDigitsSum</code>, ровно 148 годов. №3.3 — цикл до однозначного числа (942 → 6, 12345 → 6). №4.1 — палиндром написан вручную через сравнение символов с двух концов: это сложнее эталона и работает верно (<code>noon</code>, <code>racecar</code>, <code>a</code>, пустая строка → <code>true</code>; <code>hello</code>, <code>abca</code> → <code>false</code>).</p>
+
+    <p><span class="note-title">№1.4 — дни недели на английском и снова <code>case (num = 1)</code>:</span> по условию функция возвращает день недели <strong>на русском</strong>. Кроме того, повторилась ошибка из ДЗ №3: <code>case (num = 1)</code> — это <strong>присваивание</strong>, а не сравнение. Сейчас работает случайно: <code>switch</code> запоминает исходное значение, а каждый <code>case</code> перезаписывает <code>num</code> и сравнивает с результатом присваивания. В <code>case</code> пишется только значение:</p>
+    <pre><code>switch (num) {
+  case 1:
+    return 'Понедельник';
+  case 2:
+    return 'Вторник';
+  // …
+}</code></pre>
+    <p>А ещё короче — массив: <code>const days = ['Понедельник', …]; return days[num - 1];</code></p>
+
+    <p><span class="note-title">№2.2, №3.2 — переменные без объявления:</span> <code>temp = num1 + num2</code> и <code>target = getDigitsSum(i)</code> записаны без <code>let</code>/<code>const</code>. В обычном режиме JS молча создаёт <strong>глобальную</strong> переменную, которую видит и может испортить любой код. В строгом режиме (<code>'use strict'</code>, ES-модули, классы) это ошибка: <code>ReferenceError: temp is not defined</code>. Любую переменную объявляй: <code>const sum = num1 + num2;</code>. В №2.2 её можно вообще убрать: <code>return num1 + num2 &gt; 10;</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №2.1: <code>num2 - 3;</code> — опечатка, вместо <code>=</code> стоит <code>-</code>. <code>num2</code> осталась 7 от №1.3, поэтому проверка <code>isEqual(7, 7)</code> случайно вывела <code>true</code>. Сама функция верная.
+    <br>— №2.4: в проверке вызвана <code>isNegative(num1)</code> вместо <code>isNumberInRange(num1)</code> — выведенный <code>false</code> не про эту задачу. Сама функция верная: 5 → <code>true</code>, 0 и 10 → <code>false</code>, верно.
+    <br>— №2.1–2.5: <code>if (…) { return true; } else { return false; }</code> — можно вернуть само условие: <code>return num % 2 === 0;</code>.
+    <br>— №1.1: <code>powerTwo</code> понятно, но привычнее <code>square</code> / <code>getSquare</code>; №4.1: функция-проверка — <code>isPalindrome</code>, а не <code>palindrome</code>.
+    <br>— №4.1: отладочные <code>console.log</code> внутри функции лучше убрать — функция должна только возвращать результат. И две ветки (чётная/нечётная длина) делают одно и то же: хватит одного цикла <code>for (let i = 0; i &lt; Math.floor(str.length / 2); i++)</code>.</p>
   </div>
 
   <div class="student-block">
     <h3><span class="who">Новокшонова Наталья Сергеевна</span> · <span class="ctx">ДЗ №4 · index4_natalia.js</span></h3>
 
-    <p><span class="note-title strong">Сильные стороны:</span> все 13 задач решены верно (проверил запуском, сняв комментарии). Имена функций — почти дословно эталонные: <code>getSquare</code>, <code>getSum</code>, <code>getDay</code>, <code>isEqual</code>, <code>isNegative</code>, <code>isNumberInRange</code>, <code>isEven</code>, <code>getDigitsSum</code>. К каждой задаче — по два вызова и ожидаемый вывод, в функциях-проверках специально подобраны и <code>true</code>, и <code>false</code>. №1.3 со скобками <code>(a-b)/c</code>. №1.4 — массив и <code>days[num-1]</code>, «Воскресенье» написано правильно; вне 1–7 возвращается <code>undefined</code>. №2 — везде строгое <code>===</code>, границы в №2.3 и №2.4 верные. №3.2 — ровно 148 годов, последний 1930. №3.3 — <code>while</code> с переиспользованием <code>getDigitsSum</code>, это и есть композиция функций. №4.1 — стрелочная функция, как в эталоне.</p>
+    <p><span class="note-title strong">Сильные стороны:</span> все 13 задач решены верно. Имена функций — почти дословно эталонные: <code>getSquare</code>, <code>getSum</code>, <code>getDay</code>, <code>isEqual</code>, <code>isNegative</code>, <code>isNumberInRange</code>, <code>isEven</code>, <code>getDigitsSum</code>. К каждой задаче — по два вызова и ожидаемый вывод, в функциях-проверках специально подобраны и <code>true</code>, и <code>false</code>. №1.3 со скобками <code>(a-b)/c</code>. №1.4 — массив и <code>days[num-1]</code>, «Воскресенье» написано правильно; вне 1–7 возвращается <code>undefined</code>. №2 — везде строгое <code>===</code>, границы в №2.3 и №2.4 верные. №3.2 — ровно 148 годов, последний 1930. №3.3 — <code>while</code> с переиспользованием <code>getDigitsSum</code>, это и есть композиция функций. №4.1 — стрелочная функция, как в эталоне.</p>
 
     <p><span class="note-title strong">Мелочи:</span>
     <br>— №2.1–2.5: <code>if (…) return true; else return false</code> — условие само является <code>true</code>/<code>false</code>, его можно вернуть сразу: <code>return a + b &gt; 10;</code>. Плюс <code>if</code>/<code>else</code> без фигурных скобок — лучше ставить их всегда.
