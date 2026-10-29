@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДЗ №5 — Ревью JavaScript LAD 2026</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #151d2b;
+    --text-primary: #f0f4f8;
+    --text-secondary: #b6c2d1;
+    --text-muted: #8da0b5;
+    --border: #24324a;
+    --accent-blue: #38bdf8;
+    --accent-purple: #818cf8;
+    --accent-green: #4ade80;
+    --accent-yellow: #facc15;
+    --accent-red: #f87171;
+    --code-bg: #0d1220;
+    --ok-bg: rgba(74, 222, 128, .14);
+    --warn-bg: rgba(250, 204, 21, .14);
+    --bad-bg: rgba(248, 113, 113, .14);
+    --row-hover: #1a2332;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  }
+  :root[data-theme="light"] {
+    --bg-primary: #f7f9fc;
+    --bg-secondary: #eef2f7;
+    --bg-card: #ffffff;
+    --text-primary: #101828;
+    --text-secondary: #344054;
+    --text-muted: #667085;
+    --border: #d0d5dd;
+    --accent-blue: #0b7ecf;
+    --accent-purple: #5b21b6;
+    --accent-green: #0d8a3d;
+    --accent-yellow: #b5740a;
+    --accent-red: #c42318;
+    --code-bg: #f3f6fa;
+    --ok-bg: rgba(13, 138, 61, .10);
+    --warn-bg: rgba(181, 116, 10, .10);
+    --bad-bg: rgba(196, 35, 24, .10);
+    --row-hover: #e6ebf3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .sheet { max-width: 980px; margin: 0 auto; padding: 36px 20px; }
+
+  .theme-toggle {
+    position: fixed; right: 20px; top: 20px;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    font-size: 13px; font-family: var(--font-sans);
+  }
+  .theme-toggle:hover { color: var(--accent-blue); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 0 20px; padding: 6px 14px; font-size: 13.5px; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; text-decoration: none; cursor: pointer;
+  }
+  .back-link:hover { color: var(--accent-blue); }
+
+  .header { display: flex; gap: 16px; align-items: flex-start; }
+  .badge {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    box-shadow: 0 6px 18px rgba(56, 189, 248, .18);
+  }
+  .header-body h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+  .meta { font-size: 14px; color: var(--text-muted); margin: 0; }
+  .meta strong { color: var(--text-secondary); font-weight: 600; }
+  .header-rule {
+    height: 4px; margin: 20px 0 26px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple),
+                var(--accent-green), var(--accent-yellow), var(--accent-red));
+    border-radius: 2px; opacity: .85;
+  }
+
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .legend .key { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: middle; }
+  .legend .key.ok { background: var(--ok-bg); border: 1px solid var(--accent-green); }
+  .legend .key.warn { background: var(--warn-bg); border: 1px solid var(--accent-yellow); }
+  .legend .key.bad { background: var(--bad-bg); border: 1px solid var(--accent-red); }
+
+  h2.section { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; margin: 26px 0 12px; }
+  .hint-line { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 14px; }
+
+  .table-scroll { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border: 1px solid var(--border); }
+  th, td { padding: 8px 11px; text-align: left; vertical-align: top; }
+  thead th { background: var(--bg-secondary); color: var(--text-secondary); font-weight: 700; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--row-hover); }
+
+  td.student { font-weight: 700; }
+  td.student .file { display: block; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); }
+  th.tsk { width: 46px; text-align: center; }
+  td.tsk { text-align: center; }
+  td.tsk .st { display: inline-block; width: 24px; height: 24px; line-height: 22px; border-radius: 7px; font-size: 13px; }
+  .st.ok   { background: var(--ok-bg);   color: var(--accent-green);  border: 1px solid var(--accent-green); }
+  .st.warn { background: var(--warn-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .st.bad  { background: var(--bad-bg);  color: var(--accent-red);    border: 1px solid var(--accent-red); }
+  .st.na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--border); }
+  td.comment { min-width: 220px; font-size: 13px; color: var(--text-secondary); }
+  td.comment code {
+    font-family: var(--font-mono); font-size: .88em;
+    background: var(--code-bg); color: var(--accent-blue);
+    border: 1px solid var(--border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+  }
+
+  .student-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin: 12px 0; }
+  .student-block h3 { font-size: 15px; font-weight: 700; margin: 0 0 8px; }
+  .student-block h3 .who { color: var(--text-primary); }
+  .student-block h3 .ctx { color: var(--text-muted); font-weight: 500; font-size: 13px; }
+  .student-block p, .student-block li { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  pre {
+    margin: 8px 0; overflow-x: auto;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+  }
+  pre code { font-family: var(--font-mono); color: var(--text-primary); }
+  .note-title { font-weight: 700; color: var(--accent-red); }
+  .note-title.strong { color: var(--accent-green); }
+
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">🌓 Тема</button>
+
+  <a class="back-link" href="review.html">← К сводке</a>
+
+  <header class="header">
+    <div class="badge">№5</div>
+    <div class="header-body">
+      <h1>ДЗ №5 — Строки и их методы</h1>
+      <p class="meta"><strong>Занятие:</strong> 5 · <strong>Лист заданий:</strong> 5_BaseJS.html · <strong>Окно ревью:</strong> проверено 4 из 5 (Борис не сдал)</p>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <div class="legend">
+    <span><span class="key ok"></span> выполнено</span>
+    <span><span class="key warn"></span> есть замечание</span>
+    <span><span class="key bad"></span> не выполнено</span>
+    <span>— без кода / не проверялось</span>
+  </div>
+
+  <h2 class="section">Матрица задач</h2>
+  <p class="hint-line">Наведи на номер задачи или значок — во всплывающей подсказке условие и суть замечания.</p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Студент</th>
+          <th class="tsk" title="stringToArray — строку в массив слов">1.1</th>
+          <th class="tsk" title="getFirstChars — первые N символов">1.2</th>
+          <th class="tsk" title="cutString — оставить N слов">1.3</th>
+          <th class="tsk" title="limitStr — обрезать и добавить «...»">1.4</th>
+          <th class="tsk" title="getFileName — имя файла из пути">1.5</th>
+          <th class="tsk" title="getSubstr — до/после символа">1.6★</th>
+          <th class="tsk" title="insert — вставить подстроку">1.7</th>
+          <th class="tsk" title="ucFirst — первая буква заглавная">2.1</th>
+          <th class="tsk" title="capitalize — каждое слово с заглавной">2.2</th>
+          <th class="tsk" title="changeRegister — инвертировать регистр">2.3</th>
+          <th class="tsk" title="insertDash — слова через тире">2.4</th>
+          <th class="tsk" title="initCap — в PascalCase">2.5</th>
+          <th class="tsk" title="initSnake — в snake_case">2.6★</th>
+          <th class="tsk" title="removeChar — только буквы и цифры">3.1★</th>
+          <th class="tsk" title="strip — убрать лишние пробелы">3.2</th>
+          <th class="tsk" title="repeatStr — повторить строку">3.3</th>
+          <th class="tsk" title="zeros — знак и ведущие нули">3.4★</th>
+          <th class="tsk" title="isEqualIgnoreCase — равны без учёта регистра">4.1</th>
+          <th class="tsk" title="insensitiveSearch — поиск без учёта регистра">4.2</th>
+          <th class="tsk" title="hasEnding — заканчивается на… (без endsWith)">4.3</th>
+          <th class="tsk" title="count — количество вхождений">4.4★</th>
+          <th class="tsk" title="hasWord — есть ли слово">4.5★</th>
+          <th>Комментарий</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student">Хан Владислав Станиславович<span class="file">indexhw5_vlad.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="slice(str, n) — работает случайно, нужно slice(0, n)">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="нет проверки, что символ найден">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="ucFirst(&quot;&quot;) → TypeError">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Почти всё верно; три замечания и мелочи.</td>
+        </tr>
+        <tr>
+          <td class="student">Блау Борис Станиславович</td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="comment">Не сдано: в коммите homework5 только конспект занятия.</td>
+        </tr>
+        <tr>
+          <td class="student">Кальянов Никита<span class="file">index_nikita.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="str.slice(str, length) — работает случайно, нужно slice(0, length)">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="регулярка заменяет на тире и знаки, и цифры; диапазон A-Я — опечатка">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="\b не работает с кириллицей">⚠️</span></td>
+          <td class="comment">Сильная работа; три замечания.</td>
+        </tr>
+        <tr>
+          <td class="student">Кораблев Борислав Иванович<span class="file">index_borislav.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="лишний пробел в конце; undefined при n больше числа слов">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="без слэша теряется первая буква">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="нет проверки, что символ найден">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="лишний пробел и пропадает символ на позиции pos">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="ucFirst(&quot;&quot;) → TypeError">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="лишний пробел в конце">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="temp без let">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="temp без let; replace ради одного символа">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="temp без let">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="temp без let">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="внутренние пробелы не схлопываются">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="temp1, temp2 без let">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="temp без let">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Всё запускается, но много неточностей; повторяется переменная без let.</td>
+        </tr>
+        <tr>
+          <td class="student">Новокшонова Наталья Сергеевна<span class="file">index5_natalia.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="join с двумя пробелами — между словами двойной пробел">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="для короткой строки возвращается undefined — нет else">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="нет pos = 0 по умолчанию">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="ucFirst(&quot;&quot;) → TypeError">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="перевод из PascalCase не сделан — делится по пробелам">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Хорошая работа, подвохи №1.6 и №4.4 решены; пять замечаний.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section">Подробные комментарии</h2>
+
+  <div class="student-block">
+    <h3><span class="who">Хан Владислав Станиславович</span> · <span class="ctx">ДЗ №5 · indexhw5_vlad.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 22 задачи, включая все со звёздочкой. №1.5 — эталон: <code>slice(lastIndexOf('\\') + 1)</code>, и для строки без слэша возвращается вся строка. №1.7 — <code>slice + substr + slice</code> с <code>pos = 0</code> по умолчанию. №3.2 — <code>trim().split(' ').filter(…).join(' ')</code> честно схлопывает пробелы внутри. №3.4 — знак отдельно, модуль через <code>padStart</code>. №4.2 и №4.4 заранее отсекают пустую подстроку — хорошая привычка. №4.5 — лучшее решение в группе: проверяются границы слова с обеих сторон, поэтому <code>"Java"</code> внутри <code>"JavaScript"</code> не находится, а слово рядом с запятой — находится.</p>
+
+    <p><span class="note-title">№1.3 — работает случайно:</span> <code>.slice(str, n)</code> — первым аргументом передана строка. <code>slice</code> превращает её в число, получается <code>NaN</code>, а <code>NaN</code> трактуется как <code>0</code>. Результат верный, но только по совпадению — первый аргумент должен быть индексом начала:</p>
+    <pre><code>return str.split(' ').slice(0, n).join(' ');</code></pre>
+
+    <p><span class="note-title">№1.6 — символа нет в строке:</span> в задании сказано: если символа нет — вернуть пустую строку. У тебя <code>indexOf</code> возвращает <code>-1</code>, и получается <code>getSubstr("usermail", "@", "before")</code> → <code>"usermai"</code> (обрезан последний символ), а с <code>"after"</code> — вся строка <code>"usermail"</code>. Сохрани индекс в переменную и проверь его первым делом:</p>
+    <pre><code>const index = str.indexOf(char);
+if (index === -1) return '';</code></pre>
+
+    <p><span class="note-title">№2.1 — пустая строка:</span> <code>ucFirst("")</code> падает с <code>TypeError</code>: у пустой строки нет <code>str[0]</code>, это <code>undefined</code>, а у него нет <code>toUpperCase</code>. По заданию <code>ucFirst("")</code> должна вернуть <code>""</code> — достаточно проверки в начале: <code>if (str === '') return '';</code>. Либо <code>str.charAt(0)</code> — для пустой строки он вернёт <code>""</code>, а не <code>undefined</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №3.1: диапазон кодов <code>1040–1103</code> — это А–я, но <strong>Ё/ё</strong> лежат вне его (1025 и 1105). <code>removeChar("Ёлка ёж")</code> → <code>"лкаж"</code>. То же в <code>isLetterOrDigit</code> из №4.5.
+    <br>— №4.1: <code>a.includes(b) &amp;&amp; a.length === b.length</code> — по сути проверка на равенство, но обходным путём. Проще и понятнее <code>return str1.toLowerCase() === str2.toLowerCase();</code>. Имена <code>a</code>/<code>b</code> — лучше <code>lowerStr1</code>/<code>lowerStr2</code>, как ты сделал в №4.2.
+    <br>— №4.4: после найденного вхождения поиск продолжается с <code>index + 1</code>, поэтому вхождения пересекаются: <code>count("aaaa", "aa")</code> → <code>3</code>, а не <code>2</code>. Сдвигайся на длину подстроки: <code>pos = index + search.length</code>. И переменная <code>count</code> внутри функции <code>count</code> перекрывает её имя — лучше <code>counter</code>.
+    <br>— №2.2: <code>ucFirst</code> из №2.1 уже написана — её стоило переиспользовать, а не повторять <code>word[0].toUpperCase() + word.slice(1)</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Блау Борис Станиславович</span> · <span class="ctx">ДЗ №5 · не сдано</span></h3>
+
+    <p><span class="note-title">Решения нет:</span> в репозитории есть коммит «homework5», но в нём только <code>lesson5.js</code> — конспект занятия про объекты и строки — и правка файла ДЗ №4. Задач из листа ДЗ №5 (<code>stringToArray</code>, <code>ucFirst</code>, <code>strip</code> и т.д.) там нет. Как будут готовы — положи отдельным файлом, например <code>homework5.js</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кальянов Никита</span> · <span class="ctx">ДЗ №5 · index_nikita.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 22 задачи, к каждой приложен вывод из терминала — удобно сверять. №1.6 — единственный в группе, кто обработал случай «символа нет»: <code>if (index === -1) return ""</code>. №2.1 — <code>ucFirst("")</code> возвращает <code>""</code>, как и требует задание. №1.7 — позиция ограничена диапазоном <code>0…str.length</code>. №3.2 — <code>trim().replace(/\s+/g, " ")</code>, коротко и верно. №3.1 — <code>\p{L}\p{N}</code> с флагом <code>u</code> оставляет буквы любого алфавита, включая <code>ё</code>. №2.6 — отдельно учтена кириллица. №4.3 — сравнение посимвольно с конца, без <code>endsWith</code>, как просили.</p>
+
+    <p><span class="note-title">№1.2 — работает случайно:</span> <code>str.slice(str, length)</code> — первым аргументом передана сама строка. <code>slice</code> переводит её в число, выходит <code>NaN</code>, а <code>NaN</code> считается за <code>0</code>. Ответ верный по совпадению; первым аргументом должен быть индекс начала — <code>str.slice(0, length)</code>.</p>
+
+    <p><span class="note-title">№2.4 — заменяется лишнее:</span> <code>replace(/[^A-ZA-ЯЁ]/g, "-")</code> превращает в тире всё, что не буква, — не только пробелы, но и знаки препинания, и цифры: <code>insertDash("hello, world 2")</code> → <code>"HELLO--WORLD--"</code>. Задача — заменить пробелы между словами. Плюс в классе опечатка: <code>A-Я</code> начинается с <strong>латинской</strong> <code>A</code>, а не с кириллической <code>А</code>, — получился диапазон от кода 65 до 1071. Короче через <code>split</code> + <code>join</code>:</p>
+    <pre><code>return str.toUpperCase().split(' ').join('-');</code></pre>
+
+    <p><span class="note-title">№4.5 — кириллица:</span> <code>\b</code> в регулярных выражениях JS считает «буквами» только латиницу, цифры и <code>_</code>. Поэтому <code>hasWord("Я люблю JavaScript", "люблю")</code> → <code>false</code>, хотя слово есть. Плюс <code>word</code> подставляется в <code>RegExp</code> как есть — точка или скобка в слове сломают поиск. Надёжнее разбить строку на слова и сравнить: <code>str.split(' ').includes(word)</code>, — или проверять соседние символы вокруг найденного <code>indexOf</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №1.4: в комментарии с выводом для <code>limitStr("Hi", 5)</code> записано <code>Hi...</code>, а код (верно) возвращает <code>Hi</code>. Вывод стоит копировать из терминала после последней правки.
+    <br>— №2.3: диапазоны <code>а–я</code> и <code>А–Я</code> не включают <code>ё</code>/<code>Ё</code>, они остаются как есть: <code>"Ёж ёЖ"</code> → <code>"ЁЖ ёж"</code>. Сравнение <code>char === char.toUpperCase()</code> работает для любых букв без перечисления диапазонов.
+    <br>— №4.4: поиск продолжается с <code>index + 1</code>, вхождения пересекаются: <code>count("aaaa", "aa")</code> → <code>3</code>, а не <code>2</code>. Сдвигайся на <code>sub.length</code>. Переменная <code>count</code> совпадает с именем функции — лучше <code>counter</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кораблев Борислав Иванович</span> · <span class="ctx">ДЗ №5 · index_borislav.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 22 задачи, у каждой — подписанный вывод «Задание N». №1.1, 1.2, 1.4, 3.3 — коротко и по эталону. №2.2 и №2.5 переиспользуют <code>ucFirst</code> — так и задумано. №3.1 — массив допустимых символов с <code>ё</code>, поэтому кириллица обрабатывается полностью. №3.4 — знак отдельно, модуль через <code>padStart</code>. №4.3 — посимвольное сравнение хвоста без <code>endsWith</code>. №4.5 — разбиение на слова и точное сравнение: <code>"Java"</code> внутри <code>"JavaScript"</code> не находится.</p>
+
+    <p><span class="note-title">№2.3, 2.4, 2.5, 2.6, 4.1, 4.3 — переменные без <code>let</code> (повторно, как в ДЗ №4):</span> <code>temp = '';</code>, <code>temp1 = …</code>, <code>temp2 = …</code> без объявления создают <strong>глобальные</strong> переменные: все шесть функций пишут в одну и ту же <code>temp</code>. В строгом режиме (<code>'use strict'</code>, модули) это сразу ошибка <code>ReferenceError: temp is not defined</code>. Каждую переменную объявляй внутри функции: <code>let temp = '';</code>. И имя <code>temp</code> («временная») ничего не говорит — лучше <code>result</code>.</p>
+
+    <p><span class="note-title">№1.3 и №2.2 — пробел в конце:</span> к каждому слову дописывается <code>' '</code>, поэтому результат заканчивается пробелом: <code>"Каждый Охотник Желает Знать "</code>. А в №1.3, если слов меньше, чем <code>n</code>, появляются <code>undefined</code>: <code>cutString("a b", 5)</code> → <code>"a b undefined undefined undefined "</code>. Для этого и есть <code>slice</code> + <code>join</code>:</p>
+    <pre><code>return str.split(' ').slice(0, n).join(' ');</code></pre>
+
+    <p><span class="note-title">№1.5 — путь без слэша:</span> <code>index</code> по умолчанию <code>0</code>, а потом берётся <code>slice(index + 1)</code> — для имени без папок теряется первая буква: <code>getFileName("report.txt")</code> → <code>"eport.txt"</code>. Если начать с <code>let index = -1</code>, всё сойдётся. А весь цикл заменяет один <code>lastIndexOf</code>: <code>pathname.slice(pathname.lastIndexOf('\\') + 1)</code>.</p>
+
+    <p><span class="note-title">№1.6 — символа нет в строке:</span> по заданию нужно вернуть <code>""</code>. Сейчас <code>indexOf</code> возвращает <code>-1</code>, и <code>getSubstr("usermail", "@", "before")</code> → <code>"usermai"</code>. Нужна проверка: <code>if (index === -1) return '';</code>.</p>
+
+    <p><span class="note-title">№1.7 — решение подогнано под примеры:</span> к подстроке всегда дописывается пробел, а символ на позиции <code>pos</code> пропускается (<code>slice(pos + 1)</code>). На примере с запятой это совпало, но <code>insert("abc", "X", 1)</code> → <code>"aX c"</code> вместо <code>"aXbc"</code>, а <code>insert("world", "Hello ")</code> → <code>"Hello  world"</code> (два пробела). Пробел — часть вставляемой строки, функция сама его добавлять не должна. Значение по умолчанию — число <code>0</code>, а не строка <code>'default'</code>, и тогда отдельная ветка не нужна:</p>
+    <pre><code>function insert(str, substr, pos = 0) {
+  return str.slice(0, pos) + substr + str.slice(pos);
+}</code></pre>
+
+    <p><span class="note-title">№2.1 — пустая строка:</span> <code>ucFirst("")</code> падает с <code>TypeError</code> — у пустой строки <code>str[0]</code> равно <code>undefined</code>. По заданию должна вернуться <code>""</code>: добавь в начало <code>if (str === '') return '';</code>.</p>
+
+    <p><span class="note-title">№3.2 — внутренние пробелы не убираются:</span> <code>split()</code> без аргумента не делит строку, а кладёт её целиком в массив из одного элемента, а <code>temp = arr[i] + ' '</code> (без <code>+=</code>) каждый раз перезаписывает результат. В итоге работает только <code>trim()</code>: <code>strip("  a   b  ")</code> → <code>"a   b"</code>. В твоём примере внутри были одиночные пробелы, поэтому ошибка не проявилась — проверяй на строке, где ошибка видна. Вариант:</p>
+    <pre><code>return str.trim().split(' ').filter(word =&gt; word !== '').join(' ');</code></pre>
+
+    <p><span class="note-title">№2.4 — лишний <code>replace</code>:</span> <code>str[i].replace(str[i], '-')</code> — сложный способ написать <code>'-'</code>. Вся функция — одна строка: <code>str.toUpperCase().split(' ').join('-')</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №3.4: для нуля ни одна ветка не срабатывает — <code>zeros(0, 3)</code> → <code>undefined</code>. Достаточно <code>else</code> вместо второго условия.
+    <br>— №4.2: <code>includes</code> перед <code>indexOf</code> лишний — <code>indexOf</code> сам вернёт <code>-1</code>, если не нашёл. №4.3: проверка <code>includes</code> тоже не нужна, сравнение хвоста всё решает.
+    <br>— №4.4: поиск продолжается с <code>temp + 1</code>, вхождения пересекаются: <code>count("aaaa", "aa")</code> → <code>3</code>, а не <code>2</code>. Сдвигайся на <code>search.length</code>.
+    <br>— №3.1: вложенный цикл по всему массиву на каждый символ — проще <code>charArr.includes(str[i].toLowerCase())</code>; ветка <code>temp = temp + ''</code> ничего не делает.
+    <br>— №2.3: последняя ветка <code>else</code> недостижима — символ всегда равен либо своему верхнему, либо нижнему регистру. №2.6: цифры тоже равны своему «верхнему регистру», поэтому <code>"Hello2World"</code> → <code>"hello_2_world"</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Новокшонова Наталья Сергеевна</span> · <span class="ctx">ДЗ №5 · index5_natalia.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 22 задачи, у каждой — свой пример и вывод из терминала. №1.6 — сразу проверяется <code>index === -1</code>, и для строки без символа возвращается <code>""</code>, как требует задание. №4.4 — изящно: <code>str.split(search).length - 1</code>, и вхождения при этом не пересекаются — <code>count("aaaa", "aa")</code> даёт <code>2</code>, единственный верный ответ в группе. №4.1 — эталонное сравнение через <code>toLowerCase() ===</code>. №4.3 — <code>str.slice(-ending.length) === ending</code>, коротко и без <code>endsWith</code>. №1.5 — <code>split("\\").pop()</code>, №2.4 — <code>split(" ").join('-')</code>, №4.5 — <code>split(' ').includes(word)</code>: всё по делу. №2.3 — признак регистра через сравнение с <code>toLowerCase()</code>, поэтому работает и для кириллицы. Хорошие имена: <code>lowerStr1</code>, <code>strNum</code>, <code>result</code>.</p>
+
+    <p><span class="note-title">№1.3 — двойной пробел:</span> в <code>join("  ")</code> два пробела, поэтому слова склеиваются через двойной: <code>"я  работаю"</code> — это видно и в твоём выводе. Разделитель в <code>join</code> должен быть тем же, что в <code>split</code>: <code>join(" ")</code>.</p>
+
+    <p><span class="note-title">№1.4 — короткая строка:</span> для строки короче <code>n</code> ни один <code>return</code> не срабатывает, и функция возвращает <code>undefined</code>: <code>limitStr("Hi", 5)</code> → <code>undefined</code>, а нужно <code>"Hi"</code>. Не хватает второй ветки:</p>
+    <pre><code>function limitStr(str, n, symb = '...') {
+  if (str.length &gt; n) {
+    return str.slice(0, n) + symb;
+  }
+  return str;
+}</code></pre>
+
+    <p><span class="note-title">№1.7 — позиция по умолчанию:</span> в задании сказано: по умолчанию вставлять в начало. Без значения по умолчанию <code>pos</code> равен <code>undefined</code>, а <code>slice(0, undefined)</code> берёт всю строку: <code>insert("world", "Hello ")</code> → <code>"worldHello world"</code>. В своём примере ты передала <code>0</code> явно, поэтому ошибка не видна. Нужно <code>function insert(str, substr, pos = 0)</code>.</p>
+
+    <p><span class="note-title">№2.1 — пустая строка:</span> <code>ucFirst("")</code> падает с <code>TypeError</code> — у пустой строки <code>str[0]</code> равно <code>undefined</code>. По заданию должна вернуться <code>""</code>: добавь в начало <code>if (str === '') return '';</code> или используй <code>str.charAt(0)</code>.</p>
+
+    <p><span class="note-title">№2.6 — другая задача:</span> нужно перевести строку из PascalCase/camelCase: <code>initSnake("HelloMyWorld")</code> → <code>"hello_my_world"</code>. В такой строке нет пробелов, поэтому <code>split(" ")</code> ничего не делит и получается <code>"hellomyworld"</code>. Перед каждой заглавной буквой (кроме первой) нужно ставить <code>_</code> — перебором строки, как ты сделала в №2.3:</p>
+    <pre><code>function initSnake(str) {
+  let result = '';
+  for (let i = 0; i &lt; str.length; i++) {
+    const isUpper = str[i] !== str[i].toLowerCase();
+    if (isUpper &amp;&amp; i &gt; 0) {
+      result += '_';
+    }
+    result += str[i].toLowerCase();
+  }
+  return result;
+}</code></pre>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №3.4: для нуля <code>sign</code> остаётся неопределённым — <code>zeros(0, 3)</code> → <code>"undefined000"</code>. Достаточно <code>let sign = "+"</code> при объявлении. Цикл <code>while</code> с дописыванием нулей работает, но для этого и есть <code>padStart(len, "0")</code>. А <code>num = -num</code> вместе с <code>Math.abs(num)</code> делают одно и то же дважды.
+    <br>— №2.2, №2.5: <code>ucFirst</code> из №2.1 стоило переиспользовать, а не повторять <code>words[i][0].toUpperCase() + words[i].slice(1)</code>. И при двух пробелах подряд <code>words[i][0]</code> — <code>undefined</code>, функция падает.
+    <br>— №3.1: диапазоны <code>а–я</code> и <code>А–Я</code> не включают <code>ё</code>/<code>Ё</code>: <code>removeChar("Ёлка ёж")</code> → <code>"лкаж"</code>.
+    <br>— №1.6: функция <code>getSubstr</code> объявлена два раза ради двух вызовов — достаточно одного объявления и двух <code>console.log</code>.</p>
+  </div>
+
+  <footer>JavaScript · LAD 2026 — Ревью ДЗ №5 · Последнее обновление: 2026-10-29</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    function apply(t) {
+      root.dataset.theme = t;
+      try { localStorage.setItem('hw-review-dz5-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('hw-review-dz5-theme'); } catch (e) {}
+    if (saved === 'light') apply('light');
+    btn.addEventListener('click', function () {
+      apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
