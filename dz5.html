@@ -151,7 +151,7 @@
     <div class="badge">№5</div>
     <div class="header-body">
       <h1>ДЗ №5 — Строки и их методы</h1>
-      <p class="meta"><strong>Занятие:</strong> 5 · <strong>Лист заданий:</strong> 5_BaseJS.html · <strong>Окно ревью:</strong> проверено 4 из 5 (Борис не сдал)</p>
+      <p class="meta"><strong>Занятие:</strong> 5 · <strong>Лист заданий:</strong> 5_BaseJS.html · <strong>Окно ревью:</strong> проверено 5 из 5 (Борис сдал позже — 29.10)</p>
     </div>
   </header>
   <div class="header-rule"></div>
@@ -223,30 +223,30 @@
           <td class="comment">Почти всё верно; три замечания и мелочи.</td>
         </tr>
         <tr>
-          <td class="student">Блау Борис Станиславович</td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="comment">Не сдано: в коммите homework5 только конспект занятия.</td>
+          <td class="student">Блау Борис Станиславович<span class="file">homework_boris_blau.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Все 22 задачи верны; только мелочи.</td>
         </tr>
         <tr>
           <td class="student">Кальянов Никита<span class="file">index_nikita.js</span></td>
@@ -354,9 +354,16 @@ if (index === -1) return '';</code></pre>
   </div>
 
   <div class="student-block">
-    <h3><span class="who">Блау Борис Станиславович</span> · <span class="ctx">ДЗ №5 · не сдано</span></h3>
+    <h3><span class="who">Блау Борис Станиславович</span> · <span class="ctx">ДЗ №5 · homework_boris_blau.js</span></h3>
 
-    <p><span class="note-title">Решения нет:</span> в репозитории есть коммит «homework5», но в нём только <code>lesson5.js</code> — конспект занятия про объекты и строки — и правка файла ДЗ №4. Задач из листа ДЗ №5 (<code>stringToArray</code>, <code>ucFirst</code>, <code>strip</code> и т.д.) там нет. Как будут готовы — положи отдельным файлом, например <code>homework5.js</code>.</p>
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 22 задачи, и все верно работают на примерах из листа. №1.6 — проверка <code>index === -1</code>, для строки без символа возвращается <code>""</code>. №2.1 — <code>ucFirst("")</code> не падает. №2.2 и №2.5 переиспользуют <code>ucFirst</code>. №2.3 — регистр определяется сравнением с <code>toUpperCase()</code>, поэтому работает и для кириллицы. №3.1 — в диапазоны букв отдельно добавлены <code>ё</code>/<code>Ё</code>. №3.4 — знак отдельно, модуль через <code>padStart</code>. №4.3 — сравнение хвоста через <code>slice</code>, без <code>endsWith</code>. №4.4 — поиск продолжается с <code>index + search.length</code>, поэтому <code>count("aaaa", "aa")</code> → <code>2</code>, вхождения не пересекаются. №1.3, 1.5, 4.1, 4.2 — коротко, по одной строке.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №2.5: остальные буквы слова не переводятся в нижний регистр: <code>initCap("HELLO my WORLD")</code> → <code>"HELLOMyWORLD"</code>. В PascalCase после первой буквы идут строчные: <code>ucFirst(word.toLowerCase())</code>.
+    <br>— №2.6: заглавная буква ищется только в диапазоне <code>A–Z</code>, поэтому <code>initSnake("ПриветМир")</code> → <code>"приветмир"</code>. Признак, который работает для любого алфавита: <code>char !== char.toLowerCase()</code> — тот же приём, что у тебя в №2.3.
+    <br>— №4.5: строка и слово переводятся в нижний регистр, поэтому <code>hasWord("Я люблю JavaScript", "javascript")</code> → <code>true</code>. В задании про регистр ничего не сказано, но обычно поиск слова учитывает регистр, как <code>includes</code>. Если делаешь без учёта регистра — отрази это в имени или комментарии.
+    <br>— №3.3: встроенный <code>repeat</code> — верно, но задача на цикл: попробуй собрать строку в <code>for</code>, а <code>repeat</code> оставь как второй вариант.
+    <br>— В файле нет ни одного вызова функций с примерами. Добавь под каждой задачей <code>console.log(...)</code> с примером из листа — так и тебе проще проверить себя, и мне сверить вывод.</p>
   </div>
 
   <div class="student-block">
