@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДЗ №6 — Ревью JavaScript LAD 2026</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #151d2b;
+    --text-primary: #f0f4f8;
+    --text-secondary: #b6c2d1;
+    --text-muted: #8da0b5;
+    --border: #24324a;
+    --accent-blue: #38bdf8;
+    --accent-purple: #818cf8;
+    --accent-green: #4ade80;
+    --accent-yellow: #facc15;
+    --accent-red: #f87171;
+    --code-bg: #0d1220;
+    --ok-bg: rgba(74, 222, 128, .14);
+    --warn-bg: rgba(250, 204, 21, .14);
+    --bad-bg: rgba(248, 113, 113, .14);
+    --row-hover: #1a2332;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  }
+  :root[data-theme="light"] {
+    --bg-primary: #f7f9fc;
+    --bg-secondary: #eef2f7;
+    --bg-card: #ffffff;
+    --text-primary: #101828;
+    --text-secondary: #344054;
+    --text-muted: #667085;
+    --border: #d0d5dd;
+    --accent-blue: #0b7ecf;
+    --accent-purple: #5b21b6;
+    --accent-green: #0d8a3d;
+    --accent-yellow: #b5740a;
+    --accent-red: #c42318;
+    --code-bg: #f3f6fa;
+    --ok-bg: rgba(13, 138, 61, .10);
+    --warn-bg: rgba(181, 116, 10, .10);
+    --bad-bg: rgba(196, 35, 24, .10);
+    --row-hover: #e6ebf3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .sheet { max-width: 980px; margin: 0 auto; padding: 36px 20px; }
+
+  .theme-toggle {
+    position: fixed; right: 20px; top: 20px;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    font-size: 13px; font-family: var(--font-sans);
+  }
+  .theme-toggle:hover { color: var(--accent-blue); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 0 20px; padding: 6px 14px; font-size: 13.5px; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; text-decoration: none; cursor: pointer;
+  }
+  .back-link:hover { color: var(--accent-blue); }
+
+  .header { display: flex; gap: 16px; align-items: flex-start; }
+  .badge {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    box-shadow: 0 6px 18px rgba(56, 189, 248, .18);
+  }
+  .header-body h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+  .meta { font-size: 14px; color: var(--text-muted); margin: 0; }
+  .meta strong { color: var(--text-secondary); font-weight: 600; }
+  .header-rule {
+    height: 4px; margin: 20px 0 26px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple),
+                var(--accent-green), var(--accent-yellow), var(--accent-red));
+    border-radius: 2px; opacity: .85;
+  }
+
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .legend .key { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: middle; }
+  .legend .key.ok { background: var(--ok-bg); border: 1px solid var(--accent-green); }
+  .legend .key.warn { background: var(--warn-bg); border: 1px solid var(--accent-yellow); }
+  .legend .key.bad { background: var(--bad-bg); border: 1px solid var(--accent-red); }
+
+  h2.section { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; margin: 26px 0 12px; }
+  .hint-line { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 14px; }
+
+  .table-scroll { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border: 1px solid var(--border); }
+  th, td { padding: 8px 11px; text-align: left; vertical-align: top; }
+  thead th { background: var(--bg-secondary); color: var(--text-secondary); font-weight: 700; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--row-hover); }
+
+  td.student { font-weight: 700; }
+  td.student .file { display: block; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); }
+  th.tsk { width: 46px; text-align: center; }
+  td.tsk { text-align: center; }
+  td.tsk .st { display: inline-block; width: 24px; height: 24px; line-height: 22px; border-radius: 7px; font-size: 13px; }
+  .st.ok   { background: var(--ok-bg);   color: var(--accent-green);  border: 1px solid var(--accent-green); }
+  .st.warn { background: var(--warn-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .st.bad  { background: var(--bad-bg);  color: var(--accent-red);    border: 1px solid var(--accent-red); }
+  .st.na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--border); }
+  td.comment { min-width: 220px; font-size: 13px; color: var(--text-secondary); }
+  td.comment code {
+    font-family: var(--font-mono); font-size: .88em;
+    background: var(--code-bg); color: var(--accent-blue);
+    border: 1px solid var(--border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+  }
+
+  .student-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin: 12px 0; }
+  .student-block h3 { font-size: 15px; font-weight: 700; margin: 0 0 8px; }
+  .student-block h3 .who { color: var(--text-primary); }
+  .student-block h3 .ctx { color: var(--text-muted); font-weight: 500; font-size: 13px; }
+  .student-block p, .student-block li { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  pre {
+    margin: 8px 0; overflow-x: auto;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+  }
+  pre code { font-family: var(--font-mono); color: var(--text-primary); }
+  .note-title { font-weight: 700; color: var(--accent-red); }
+  .note-title.strong { color: var(--accent-green); }
+
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">🌓 Тема</button>
+
+  <a class="back-link" href="review.html">← К сводке</a>
+
+  <header class="header">
+    <div class="badge">№6</div>
+    <div class="header-body">
+      <h1>ДЗ №6 — Массивы и их методы</h1>
+      <p class="meta"><strong>Занятие:</strong> 6 · <strong>Лист заданий:</strong> 6_BaseJS.html · <strong>Окно ревью:</strong> проверено 5 из 5 (решение Натальи прислано файлом)</p>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <div class="legend">
+    <span><span class="key ok"></span> выполнено</span>
+    <span><span class="key warn"></span> есть замечание</span>
+    <span><span class="key bad"></span> не выполнено</span>
+    <span>— без кода / не проверялось</span>
+  </div>
+
+  <h2 class="section">Матрица задач</h2>
+  <p class="hint-line">Наведи на номер задачи или значок — во всплывающей подсказке условие и суть замечания.</p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Студент</th>
+          <th class="tsk" title="getLengths — длины строк через map">1.1</th>
+          <th class="tsk" title="currentSums — накопительные суммы через reduce">1.2★</th>
+          <th class="tsk" title="getPairsOfSeven — пары с суммой 7">1.3★</th>
+          <th class="tsk" title="sumMatrix — сумма двумерного массива">1.4</th>
+          <th class="tsk" title="getFirstLetters — первые буквы слов">2.1</th>
+          <th class="tsk" title="getTriples — тройки символов">2.2★</th>
+          <th class="tsk" title="sortDesc — по убыванию, исходный массив не меняется">2.3</th>
+          <th class="tsk" title="mergeDesc — три массива в строку через пробел">2.4</th>
+          <th class="tsk" title="reverseArray — перевернуть без reverse">3.1</th>
+          <th class="tsk" title="countToExceed — сколько сложить, чтобы больше 10">3.2</th>
+          <th class="tsk" title="arrayFill — заполнить массив">3.3</th>
+          <th class="tsk" title="isEqualArrays — одинаковые массивы">4.1</th>
+          <th class="tsk" title="sumEven — сумма чётных аргументов">4.2</th>
+          <th class="tsk" title="getIntersection — общие элементы без повторов">4.3</th>
+          <th>Комментарий</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student">Хан Владислав Станиславович<span class="file">indexhw6_vlad.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Все 14 задач верны; только мелочи.</td>
+        </tr>
+        <tr>
+          <td class="student">Блау Борис Станиславович<span class="file">homework_boris_blau.js</span></td>
+          <td class="tsk"><span class="st ok" title="засчитано; мелочь — опечатка в имени getLenghts">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Все 14 задач верны; опечатка в имени №1.1 — мелочь.</td>
+        </tr>
+        <tr>
+          <td class="student">Кальянов Никита<span class="file">index_nikita.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Все 14 задач верны; только мелочи.</td>
+        </tr>
+        <tr>
+          <td class="student">Кораблев Борислав Иванович<span class="file">index_borislav.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="k &lt;= arr.length — выход за границу массива">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="sort меняет исходный массив — нужна копия">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="разделитель «, » вместо пробела">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Всё запускается; два замечания по условию (№2.3, №2.4) и граница цикла в №1.3.</td>
+        </tr>
+        <tr>
+          <td class="student">Новокшонова Наталья Сергеевна<span class="file">index6_natalia.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="result объявлен вне функции — повторный вызов дописывает к старым тройкам">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="return true внутри цикла — сравнивается только первый элемент">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Хорошая работа; две ошибки — №2.2 и №4.1.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section">Подробные комментарии</h2>
+
+  <div class="student-block">
+    <h3><span class="who">Хан Владислав Станиславович</span> · <span class="ctx">ДЗ №6 · indexhw6_vlad.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 14 задач, включая все со звёздочкой, и под каждой есть вызов с примером. №1.3 — внутренний цикл с <code>j = i + 1</code>, поэтому нет ни пары элемента с самим собой, ни повторов <code>[7, 0]</code>. №2.3 — сначала копия <code>[...digits]</code>, потом <code>sort</code>: исходный массив не меняется. №3.2 — возвращается количество <code>i + 1</code>, а не индекс. №4.1 — сначала сравниваются длины. №4.3 — решено честно циклами, а флаги <code>foundInSecond</code> и <code>alreadyAdded</code> читаются как обычные слова: сразу понятно, что проверяет каждый цикл.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №1.2: <code>reduce</code> здесь работает как <code>forEach</code>: аккумулятор — число, а массив собирается во внешней переменной <code>result</code>. Ответ верный, но смысл задачи — сделать аккумулятором сам массив сумм, чтобы <code>reduce</code> сразу вернул результат:</p>
+    <pre><code>const currentSums = (numbers) =&gt;
+  numbers.reduce((sums, num, i) =&gt; {
+    sums.push(i === 0 ? num : sums[i - 1] + num);
+    return sums;
+  }, []);</code></pre>
+    <p>— №2.4: <code>sortDesc</code> из №2.3 уже написана — её можно переиспользовать: <code>sortDesc([...arr1, ...arr2, ...arr3]).join(' ')</code>.
+    <br>— №4.3: когда будешь писать без ограничения «только циклы», оба внутренних цикла заменяет <code>includes</code>: <code>arr2.includes(value) &amp;&amp; !result.includes(value)</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Блау Борис Станиславович</span> · <span class="ctx">ДЗ №6 · homework_boris_blau.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 14 задач, и все верно работают на примерах из листа. Особенно хорошо, что к каждой задаче подобраны свои примеры, в том числе краевые: пустой массив, строка <code>"да"</code> короче трёх символов, <code>countToExceed([5, 5])</code> — сумма ровно 10, <code>isEqualArrays([1, "2"], [1, 2])</code> — тот самый подвох со сравнением через строку. №1.2 — аккумулятор-массив, как и задумано. №1.4 — вложенный <code>reduce</code>. №2.2 и №4.3 — по два варианта решения, а <code>getTriples("дом")</code> верно даёт <code>["дом"]</code>. №2.3 — копия через spread перед <code>sort</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №1.1: опечатка в имени — <code>getLenghts</code>, а в задании <code>getLengths</code> (<em>length</em> — «длина»). Кто вызовет функцию по имени из условия, получит <code>ReferenceError</code>, поэтому имена лучше брать из задания один в один.
+    <br>— №2.4: <code>sortDesc</code> из №2.3 можно переиспользовать: <code>sortDesc([...arr1, ...arr2, ...arr3]).join(" ")</code>.
+    <br>— №1.2: <code>(accum[accum.length - 1] || 0)</code> работает, но «если предыдущей суммы нет» точнее выражает проверка длины или индекса: <code>i === 0 ? current : accum[i - 1] + current</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кальянов Никита</span> · <span class="ctx">ДЗ №6 · index_nikita.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 14 задач, к каждой приложен вывод из терминала. №2.3 — после вызова выведен и исходный массив: видно, что он не изменился, — именно так и проверяется это требование. №1.3 — <code>j = i + 1</code>, пары не повторяются. №3.2 — количество <code>i + 1</code> и <code>-1</code>, если сумма не превысила 10. №4.3 — два <code>Set</code>: один для поиска во втором массиве, другой для уже добавленных значений, порядок первого массива сохраняется. Имена переменных понятные: <code>merged</code>, <code>sorted</code>, <code>triple</code>, <code>seen</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №1.2: аккумулятор — число, а массив собирается во внешней <code>result</code>, так что <code>reduce</code> работает как <code>forEach</code>. Смысл задачи — сделать аккумулятором сам массив: начальное значение <code>[]</code>, на каждом шаге <code>sums.push(...)</code> и <code>return sums</code>.
+    <br>— №2.4: <code>sortDesc</code> из №2.3 можно переиспользовать: <code>sortDesc([...arr1, ...arr2, ...arr3]).join(" ")</code>.
+    <br>— №4.2: проверка <code>typeof num === "number"</code> — разумная защита, но условие обещает числа; без неё код короче и ближе к заданию.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кораблев Борислав Иванович</span> · <span class="ctx">ДЗ №6 · index_borislav.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 14 задач, у каждой — подписанный вывод «Задание N». №1.2 — аккумулятор-массив, как и задумано. №2.4 — переиспользована <code>sortDesc</code> из №2.3: верная мысль. №3.1, №3.3 — по эталону. №4.1 — сначала сравниваются длины. №4.3 — повторы отсекаются через <code>includes</code>, порядок первого массива сохраняется. №4.2 — rest-параметр и <code>for…of</code>, как требует условие. Переменные везде объявлены через <code>let</code> — в ДЗ №5 это было главным замечанием, здесь его нет.</p>
+
+    <p><span class="note-title">№2.3 — исходный массив меняется:</span> в условии прямо сказано: исходный массив не должен измениться. А <code>sort</code> сортирует массив <strong>на месте</strong> и возвращает тот же самый массив:</p>
+    <pre><code>const digits = [3, 1, 4, 1, 5];
+sortDesc(digits);
+console.log(digits); // [5, 4, 3, 1, 1] — исходный массив испорчен</code></pre>
+    <p>В твоём примере массив создаётся прямо в вызове, поэтому ошибку не видно. Сначала копия, потом сортировка:</p>
+    <pre><code>function sortDesc(digits) {
+  return [...digits].sort((a, b) =&gt; b - a);
+}</code></pre>
+    <p>В №2.4 эта ошибка не проявляется только потому, что <code>concat</code> уже создаёт новый массив.</p>
+
+    <p><span class="note-title">№2.4 — формат строки:</span> по заданию цифры идут через пробел: <code>"9 5 4 3 2 1 1"</code>. У тебя <code>join(', ')</code>, получается <code>"9, 5, 4, 3, 2, 1, 1"</code>. Нужно <code>join(' ')</code>.</p>
+
+    <p><span class="note-title">№1.3 — граница цикла:</span> <code>k &lt;= arr.length</code> — на последнем шаге берётся <code>arr[arr.length]</code>, а такого элемента нет: это <code>undefined</code>, и <code>arr[i] + undefined</code> даёт <code>NaN</code>. Сейчас <code>NaN === 7</code> просто ложно, поэтому ответ верный, но это выход за пределы массива. Последний индекс — <code>arr.length - 1</code>, условие — <code>k &lt; arr.length</code>.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №3.2: <code>counter</code> всегда равен <code>i + 1</code> — отдельная переменная не нужна. Проверка на пустой массив тоже лишняя: для <code>[]</code> цикл не выполнится ни разу и сработает <code>return -1</code> в конце. Вся функция — цикл и два <code>return</code>.
+    <br>— №4.2: цикл, который копирует <code>numbers</code> в <code>newArr</code>, не нужен: rest-параметр уже массив — сразу <code>for (const num of numbers)</code>.
+    <br>— №4.1: <code>else</code> после <code>return false</code> не нужен — если длины разные, функция уже вышла.
+    <br>— №4.3: внутренний цикл по <code>arr2</code> заменяет <code>arr2.includes(arr1[i])</code> — ты и так используешь <code>includes</code> для повторов.
+    <br>— Имена <code>newArr</code> и <code>arr</code> в пяти функциях ничего не говорят о содержимом. Лучше <code>lengths</code>, <code>pairs</code>, <code>triples</code>, <code>result</code>.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Новокшонова Наталья Сергеевна</span> · <span class="ctx">ДЗ №6 · index6_natalia.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все 14 задач, к каждой — свой пример и вывод из терминала. №1.2 — аккумулятор-массив, а первый шаг явно выделен проверкой <code>acc.length === 0</code>: читается без подсказок. №1.3 — <code>j = i + 1</code>, пары не повторяются. №2.3 — копия через <code>slice()</code> перед <code>sort</code>, исходный массив не меняется. №4.2 — rest-параметр, <code>for…of</code> и вызов через spread <code>sumEven(...numbers)</code>. №4.3 — решено циклами, повторы отсекаются флагом <code>exists</code>, порядок первого массива сохраняется.</p>
+
+    <p><span class="note-title">№4.1 — сравнивается только первый элемент:</span> <code>return true</code> стоит <strong>внутри</strong> цикла, поэтому функция выходит уже после первой итерации. Если первые элементы совпали — сразу <code>true</code>, остальные не проверяются:</p>
+    <pre><code>isEqualArrays([1, 2, 3], [1, 2, 4]); // true, а должно быть false
+isEqualArrays([], []);               // undefined — цикл не выполнился, return не сработал</code></pre>
+    <p>В твоём примере массивы одинаковые, поэтому ошибку не видно. <code>return true</code> нужно перенести за цикл: «все элементы прошли проверку — значит, массивы равны». Ошибку легко пропустить из-за отступов: когда закрывающие скобки выровнены, сразу видно, внутри цикла строка или после него.</p>
+    <pre><code>for (let i = 0; i &lt; arr1.length; i++) {
+  if (arr1[i] !== arr2[i]) {
+    return false;
+  }
+}
+return true;</code></pre>
+
+    <p><span class="note-title">№2.2 — массив снаружи функции:</span> <code>const result = []</code> объявлен до функции, поэтому каждый вызов дописывает тройки в один и тот же массив:</p>
+    <pre><code>getTriples("hello"); // ["hel", "ell", "llo"]
+getTriples("abc");   // ["hel", "ell", "llo", "abc"] — остались тройки от прошлого вызова</code></pre>
+    <p>Функция должна создавать результат заново при каждом вызове — перенеси <code>const result = []</code> первой строкой внутрь <code>getTriples</code>, как ты сделала в №3.1 и №3.3.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №1.3: вывод в комментарии — <code>[[0, 7], [0, 7], [1, 6], [2, 5]]</code>, а код (верно) возвращает <code>[[0, 7], [1, 6], [2, 5], [3, 4]]</code>. Вывод стоит копировать из терминала после последней правки.
+    <br>— №3.2: <code>count</code> всегда равен <code>i + 1</code> — отдельная переменная не нужна: <code>return i + 1</code>.
+    <br>— №4.3: когда значение нашлось во втором массиве, перебирать его дальше незачем — подойдёт <code>break</code>, а без ограничения «только циклы» оба внутренних цикла заменяет <code>includes</code>.
+    <br>— №2.4: <code>sortDesc</code> из №2.3 можно переиспользовать: <code>sortDesc(arr1.concat(arr2, arr3)).join(" ")</code>.</p>
+  </div>
+
+  <footer>JavaScript · LAD 2026 — Ревью ДЗ №6 · Последнее обновление: 2026-11-05</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    function apply(t) {
+      root.dataset.theme = t;
+      try { localStorage.setItem('hw-review-dz6-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('hw-review-dz6-theme'); } catch (e) {}
+    if (saved === 'light') apply('light');
+    btn.addEventListener('click', function () {
+      apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
