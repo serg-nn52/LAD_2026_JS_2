@@ -192,8 +192,57 @@ const fruitsList = ['apple', 'banana', 'cherry']; //arr
 // console.log(evenNumbers);
 
 
-let obj = { a: 1, b: 2 };
+// let obj = { a: 1, b: 2 };
 
-for (let key in obj) {
-  console.log(key, obj[key]);
+// for (let key in obj) {
+//   console.log(key, obj[key]);
+// }
+
+// const firstObj = { message: "Hello" };
+// const secondObj = firstObj;
+
+// // const copiedObj = Object.assign({}, firstObj);
+
+// const stringifyFirstObj =  JSON.stringify(firstObj);
+
+// console.log(stringifyFirstObj);
+
+// const copiedObj = JSON.parse(stringifyFirstObj);
+
+// copiedObj.message = 'GoodBuy!';
+// copiedObj.date = '05.11.2026';
+
+
+
+// console.log(firstObj, copiedObj);
+
+// let nums = [3, 7, 1];
+// const secondNums = [0, 0, 0];
+
+// const concatNums = [...nums, ...secondNums];
+
+// // nums.push(...secondNums);
+// console.log(nums);
+
+// let obj = { a: "Hello" };
+// const secondObj = {date: "05.11.2026"};
+// let newObj = { ...obj, ...secondObj }; // новый объект
+// newObj.b = "Hi!";
+
+// console.log(obj);    // { a: "Hello" }
+// console.log(newObj);
+
+// const sum = (a, b, ...rest) => {
+//   console.log(rest);
+//   return a + b;
+// }
+
+// const result = sum(2, 3, 5, 6, 7, 45);
+// console.log(result);
+
+const sum = (...rest) => {
+  return rest.reduce((acc, val) => acc + val, 0);
 }
+
+const result = sum(2, 3, 5, 100);
+console.log(result);
