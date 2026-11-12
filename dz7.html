@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДЗ №7 — Ревью JavaScript LAD 2026</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #151d2b;
+    --text-primary: #f0f4f8;
+    --text-secondary: #b6c2d1;
+    --text-muted: #8da0b5;
+    --border: #24324a;
+    --accent-blue: #38bdf8;
+    --accent-purple: #818cf8;
+    --accent-green: #4ade80;
+    --accent-yellow: #facc15;
+    --accent-red: #f87171;
+    --code-bg: #0d1220;
+    --ok-bg: rgba(74, 222, 128, .14);
+    --warn-bg: rgba(250, 204, 21, .14);
+    --bad-bg: rgba(248, 113, 113, .14);
+    --row-hover: #1a2332;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  }
+  :root[data-theme="light"] {
+    --bg-primary: #f7f9fc;
+    --bg-secondary: #eef2f7;
+    --bg-card: #ffffff;
+    --text-primary: #101828;
+    --text-secondary: #344054;
+    --text-muted: #667085;
+    --border: #d0d5dd;
+    --accent-blue: #0b7ecf;
+    --accent-purple: #5b21b6;
+    --accent-green: #0d8a3d;
+    --accent-yellow: #b5740a;
+    --accent-red: #c42318;
+    --code-bg: #f3f6fa;
+    --ok-bg: rgba(13, 138, 61, .10);
+    --warn-bg: rgba(181, 116, 10, .10);
+    --bad-bg: rgba(196, 35, 24, .10);
+    --row-hover: #e6ebf3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .sheet { max-width: 980px; margin: 0 auto; padding: 36px 20px; }
+
+  .theme-toggle {
+    position: fixed; right: 20px; top: 20px;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    font-size: 13px; font-family: var(--font-sans);
+  }
+  .theme-toggle:hover { color: var(--accent-blue); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 0 20px; padding: 6px 14px; font-size: 13.5px; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; text-decoration: none; cursor: pointer;
+  }
+  .back-link:hover { color: var(--accent-blue); }
+
+  .header { display: flex; gap: 16px; align-items: flex-start; }
+  .badge {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    box-shadow: 0 6px 18px rgba(56, 189, 248, .18);
+  }
+  .header-body h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+  .meta { font-size: 14px; color: var(--text-muted); margin: 0; }
+  .meta strong { color: var(--text-secondary); font-weight: 600; }
+  .header-rule {
+    height: 4px; margin: 20px 0 26px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple),
+                var(--accent-green), var(--accent-yellow), var(--accent-red));
+    border-radius: 2px; opacity: .85;
+  }
+
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .legend .key { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: middle; }
+  .legend .key.ok { background: var(--ok-bg); border: 1px solid var(--accent-green); }
+  .legend .key.warn { background: var(--warn-bg); border: 1px solid var(--accent-yellow); }
+  .legend .key.bad { background: var(--bad-bg); border: 1px solid var(--accent-red); }
+
+  h2.section { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; margin: 26px 0 12px; }
+  .hint-line { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 14px; }
+
+  .table-scroll { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border: 1px solid var(--border); }
+  th, td { padding: 8px 11px; text-align: left; vertical-align: top; }
+  thead th { background: var(--bg-secondary); color: var(--text-secondary); font-weight: 700; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--row-hover); }
+
+  td.student { font-weight: 700; }
+  td.student .file { display: block; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); }
+  th.tsk { width: 46px; text-align: center; }
+  td.tsk { text-align: center; }
+  td.tsk .st { display: inline-block; width: 24px; height: 24px; line-height: 22px; border-radius: 7px; font-size: 13px; }
+  .st.ok   { background: var(--ok-bg);   color: var(--accent-green);  border: 1px solid var(--accent-green); }
+  .st.warn { background: var(--warn-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .st.bad  { background: var(--bad-bg);  color: var(--accent-red);    border: 1px solid var(--accent-red); }
+  .st.na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--border); }
+  td.comment { min-width: 220px; font-size: 13px; color: var(--text-secondary); }
+  td.comment code {
+    font-family: var(--font-mono); font-size: .88em;
+    background: var(--code-bg); color: var(--accent-blue);
+    border: 1px solid var(--border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+  }
+
+  .student-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin: 12px 0; }
+  .student-block h3 { font-size: 15px; font-weight: 700; margin: 0 0 8px; }
+  .student-block h3 .who { color: var(--text-primary); }
+  .student-block h3 .ctx { color: var(--text-muted); font-weight: 500; font-size: 13px; }
+  .student-block p, .student-block li { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  pre {
+    margin: 8px 0; overflow-x: auto;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+  }
+  pre code { font-family: var(--font-mono); color: var(--text-primary); }
+  .note-title { font-weight: 700; color: var(--accent-red); }
+  .note-title.strong { color: var(--accent-green); }
+
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">🌓 Тема</button>
+
+  <a class="back-link" href="review.html">← К сводке</a>
+
+  <header class="header">
+    <div class="badge">№7</div>
+    <div class="header-body">
+      <h1>ДЗ №7 — Продвинутая работа с функциями</h1>
+      <p class="meta"><strong>Занятие:</strong> 7 · <strong>Лист заданий:</strong> 7_BaseJS.html · <strong>Темы:</strong> <code>this</code>, <code>call</code>/<code>apply</code>/<code>bind</code>, замыкания · <strong>Окно ревью:</strong> проверено 3 из 5 (Владислав и Борислав решение не прислали)</p>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <div class="legend">
+    <span><span class="key ok"></span> выполнено</span>
+    <span><span class="key warn"></span> есть замечание</span>
+    <span><span class="key bad"></span> не выполнено</span>
+    <span>— без кода / не проверялось</span>
+  </div>
+
+  <h2 class="section">Матрица задач</h2>
+  <p class="hint-line">Наведи на номер задачи или значок — во всплывающей подсказке условие и суть замечания.</p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Студент</th>
+          <th class="tsk" title="bind с null — что покажет alert(this)">1.1</th>
+          <th class="tsk" title="повторный bind — можно ли сменить this">1.2</th>
+          <th class="tsk" title="свойство sayHi.test после bind">1.3</th>
+          <th class="tsk" title="потеря контекста — объяснить и исправить">2.1</th>
+          <th class="tsk" title="частичное применение: user.login(true/false)">2.2</th>
+          <th class="tsk" title="привязать this к elem">2.3</th>
+          <th class="tsk" title="createTimer на замыкании (★ setInterval)">3.1</th>
+          <th class="tsk" title="объект «город»: getName, getPopulation, setProp">4.1</th>
+          <th class="tsk" title="чужие методы через call/apply и bind">4.2</th>
+          <th class="tsk" title="makeVolume(height) через замыкание">4.3</th>
+          <th>Комментарий</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student">Блау Борис Станиславович<span class="file">homework_boris_blau.js</span></td>
+          <td class="tsk"><span class="st warn" title="строгий режим даёт null, а не undefined">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st bad" title="объявлены city1 и city2, но ни call/apply, ни bind не вызваны">❌</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Почти всё верно; не сделана задача №4.2 и одна неточность в №1.1.</td>
+        </tr>
+        <tr>
+          <td class="student">Кальянов Никита<span class="file">index_nikita.js</span></td>
+          <td class="tsk"><span class="st warn" title="ответ «null» — только для строгого режима; в браузере будет [object Window]">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Все задачи решены; замечание только по №1.1.</td>
+        </tr>
+        <tr>
+          <td class="student">Кораблев Борислав Иванович<span class="file">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="comment">Решение не предоставлено.</td>
+        </tr>
+        <tr>
+          <td class="student">Новокшонова Наталья Сергеевна<span class="file">index_Natalia.js</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="исправление верное, но нет объяснения, почему this теряется">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="сделан только call; часть с bind для изменения свойств city2 пропущена">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Задачи решены верно; две неполноты — №2.1 и №4.2.</td>
+        </tr>
+        <tr>
+          <td class="student">Хан Владислав Станиславович<span class="file">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="tsk"><span class="st na">—</span></td>
+          <td class="comment">Решение не предоставлено.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section">Подробные комментарии</h2>
+
+  <div class="student-block">
+    <h3><span class="who">Блау Борис Станиславович</span> · <span class="ctx">ДЗ №7 · homework_boris_blau.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> девять задач из десяти, и почти все — с объяснением причины, а не только с ответом. №1.2 и №1.3 разобраны верно: первая привязка фиксирует <code>this</code> навсегда, а <code>bind</code> возвращает новый объект, на который свойства исходной функции не копируются. №2.1 — точно указана причина («методы вызываются без объекта <code>user</code>») и дано исправление через <code>bind(user)</code>. №3.1 — таймер сделан через флаг <code>active</code>, а направление шага вынесено в <code>step</code>: заготовка работает и назад, и вперёд, вывод совпадает с образцом. №4.1 — <code>this[key]</code> в <code>setProp</code>, как и задумано. №4.3 — замыкание на <code>height</code>, даны оба варианта записи.</p>
+
+    <p><span class="note-title">№4.2 — задача не сделана:</span> объявлены <code>city1</code> и <code>city2</code>, но дальше нет ни одного вызова. Нужно было и вызвать методы первого города в контексте второго, и через <code>bind</code> изменить свойства второго:</p>
+    <pre><code>city1.getName.call(city2);        // "Antwerp"
+city1.getPopulation.apply(city2); // 530000
+
+const setForCity2 = city1.setProp.bind(city2);
+setForCity2("name", "Ghent");
+setForCity2("population", 265000);
+// city2 изменился, city1 — нет</code></pre>
+
+    <p><span class="note-title">№1.1 — неточность про строгий режим:</span> вторая половина ответа верна (нестрогий режим — <code>window</code>), а первая нет. <code>bind(null)</code> фиксирует <code>this</code> именно как <code>null</code>, и в строгом режиме он таким и остаётся — <code>alert</code> покажет <code>null</code>, а не <code>undefined</code>. <code>undefined</code> в роли <code>this</code> — это другой случай: когда функция вызвана вообще без объекта, например <code>f()</code>. Разница в том, что <code>bind(null)</code> — это явно заданное значение, а не «объекта нет».</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №4.1 и №4.2: <code>city1</code> объявлен дважды одним и тем же кодом — достаточно одного объявления.
+    <br>— №4.3: после <code>function makeVolume(height)</code> ниже идёт <code>const makeVolume = …</code> — это повторное объявление в одной области видимости, то есть <code>SyntaxError</code> (если раскомментировать, скрипт не запустится целиком). Второй вариант стоит назвать иначе или оставить только один.
+    <br>— №4.3: переменная названа <code>volumeHeight11</code>, хотя высота по-прежнему 10 — легко запутаться.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Кальянов Никита</span> · <span class="ctx">ДЗ №7 · index_nikita.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> сделаны все десять задач, и к большинству приложен вывод из терминала. №1.2 и №1.3 — верные ответы с объяснением причины. №2.1 — названа именно потеря контекста и показано, что <code>bind(user)</code> лечит её. №2.3 — привязка вынесена в отдельную переменную <code>boundFunc</code>, так что исходная <code>func</code> остаётся нетронутой: аккуратный вариант. №3.1 — таймер на замыкании, значения идут 3, 2, 1, 0, затем сообщение о завершении, дальше тишина, и сделана звёздочка: <code>setInterval</code> плюс <code>clearInterval</code> по достижении <code>end</code>. №4.2 — обе части задания, причём <code>setProp</code> привязан вместе с ключом (<code>bind(city2, "name")</code>) — это уже настоящее частичное применение, читается очень ясно. №4.3 — верно, 60.</p>
+
+    <p><span class="note-title">№1.1 — ответ верен только для строгого режима:</span> «выведет <code>null</code>» — это ответ для строгого режима, где <code>this</code> не подменяется. Но код в листе — обычный <code>&lt;script&gt;</code>, то есть нестрогий режим, а там <code>null</code> в роли <code>this</code> заменяется на глобальный объект, и <code>alert</code> покажет <code>[object Window]</code>. Проверка в браузере это подтвердит — как раз поэтому в задании и просили свериться. Стоит держать в голове оба варианта: <code>null</code> — строгий режим, <code>[object Window]</code> — обычный.</p>
+    <p>Отдельно: в решении строка изменена на <code>g: f.bind("Никита")</code>, а ответ всё равно про <code>null</code>. Сама проба любопытная (со строкой в <code>this</code> <code>alert</code> покажет «Никита»), но тогда и ответ должен относиться к изменённому коду — иначе получается противоречие.</p>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №4.1: строка <code>this.hasOwnProperty(key);</code> ничего не делает: результат никуда не присваивается и не проверяется, а <code>hasOwnProperty</code> только возвращает <code>true</code>/<code>false</code>. Её можно убрать.
+    <br>— №2.1 и №2.2: в листинге задач потерялся код — <code>loginFail() {}</code> стал пустым, а строка <code>alert(...)</code> оказалась вне функции. На решение не влияет, но такие обрывки лучше не оставлять.</p>
+  </div>
+
+  <div class="student-block">
+    <h3><span class="who">Новокшонова Наталья Сергеевна</span> · <span class="ctx">ДЗ №7 · index_Natalia.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны:</span> пройдены все десять задач. Ответы на «что выведет» верные во всех трёх случаях: <code>[object Window]</code> в №1.1, «Вася» в №1.2 и <code>undefined</code> в №1.3 — то есть главное, что <code>bind</code> фиксирует <code>this</code> навсегда и возвращает новую функцию, усвоено. №2.2 — ровно тот приём, ради которого задача: <code>user.login.bind(user, true)</code> фиксирует и <code>this</code>, и первый аргумент. №2.3 — <code>func = func.bind(elem)</code>. №3.1 — таймер на замыкании, <code>current</code> живёт внутри <code>createTimer</code>, значения идут 3, 2, 1, 0 и сообщение о завершении, а последующие вызовы молчат. Сделана и звёздочка: таймер запускается через <code>setInterval</code> и останавливается <code>clearInterval</code>, причём признак завершения возвращается наружу — аккуратное решение. №4.1 — <code>this</code> в методах и скобочная запись <code>this[key]</code> в <code>setProp</code>. №4.3 — замыкание на <code>height</code>, <code>volumeHeight10(2, 3)</code> даёт 60. Имена переменных осмысленные: <code>current</code>, <code>tick</code>, <code>city1</code>, <code>city2</code>, <code>volumeHeight10</code>.</p>
+
+    <p><span class="note-title">№2.1 — нет объяснения причины:</span> исправление верное — <code>askPassword(user.loginOk.bind(user), user.loginFail.bind(user))</code>. Но в задаче спрашивалось ещё и «почему ошибка», а этого в решении нет. Причина в том, что метод передаётся <strong>без объекта</strong>: в вызове <code>ok()</code> перед функцией нет точки, поэтому <code>this</code> внутри <code>loginOk</code> — уже не <code>user</code>. Стоит держать в голове и второй вариант: ошибка <code>TypeError</code> возникает в строгом режиме (модули, <code>"use strict"</code>), где <code>this</code> = <code>undefined</code>. В обычном <code>&lt;script&gt;</code> падения не будет: <code>this</code> станет <code>window</code>, у которого есть пустое свойство <code>name</code>, и всплывёт « logged in» без имени — хорошая иллюстрация, зачем нужен строгий режим.</p>
+
+    <p><span class="note-title">№4.2 — сделана только половина:</span> первая часть выполнена — методы <code>city1</code> вызваны в контексте <code>city2</code> через <code>call</code>. А вторая часть задания — «с помощью <code>bind()</code> изменить свойства <code>city2</code>» — пропущена. Нужно было привязать <code>setProp</code> к <code>city2</code> и уже им записать новые значения:</p>
+    <pre><code>const setForCity2 = city1.setProp.bind(city2);
+setForCity2("name", "Самара");
+setForCity2("population", 1150000);
+// city2 изменился, city1 — нет</code></pre>
+
+    <p><span class="note-title strong">Мелочи:</span>
+    <br>— №1.1–1.3: ответы верные, но пояснения очень короткие. Полезно проговаривать причину: в №1.3 <code>bind</code> возвращает новый объект, свойства исходной функции на него не копируются — потому и <code>undefined</code>.
+    <br>— №4.1 и №4.2: объект <code>city1</code> объявлен дважды одним и тем же кодом — достаточно объявить его один раз, а во второй задаче сразу перейти к <code>city2</code>.
+    <br>— №2.2: вместо <code>bind</code> здесь так же уместна стрелочная обёртка <code>() =&gt; user.login(true)</code> — полезно уметь оба варианта.</p>
+  </div>
+
+  <footer>JavaScript · LAD 2026 — Ревью ДЗ №7 · Последнее обновление: 2026-11-12</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    function apply(t) {
+      root.dataset.theme = t;
+      try { localStorage.setItem('hw-review-dz7-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('hw-review-dz7-theme'); } catch (e) {}
+    if (saved === 'light') apply('light');
+    btn.addEventListener('click', function () {
+      apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
