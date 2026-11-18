@@ -151,7 +151,7 @@
     <div class="badge">№7</div>
     <div class="header-body">
       <h1>ДЗ №7 — Продвинутая работа с функциями</h1>
-      <p class="meta"><strong>Занятие:</strong> 7 · <strong>Лист заданий:</strong> 7_BaseJS.html · <strong>Темы:</strong> <code>this</code>, <code>call</code>/<code>apply</code>/<code>bind</code>, замыкания · <strong>Окно ревью:</strong> проверено 3 из 5 (Владислав и Борислав решение не прислали)</p>
+      <p class="meta"><strong>Занятие:</strong> 7 · <strong>Лист заданий:</strong> 7_BaseJS.html · <strong>Темы:</strong> <code>this</code>, <code>call</code>/<code>apply</code>/<code>bind</code>, замыкания · <strong>Окно ревью:</strong> проверено 4 из 5 (нет решения Борислава)</p>
     </div>
   </header>
   <div class="header-rule"></div>
@@ -241,18 +241,18 @@
           <td class="comment">Задачи решены верно; две неполноты — №2.1 и №4.2.</td>
         </tr>
         <tr>
-          <td class="student">Хан Владислав Станиславович<span class="file">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="tsk"><span class="st na">—</span></td>
-          <td class="comment">Решение не предоставлено.</td>
+          <td class="student">Хан Владислав Станиславович<span class="file">index_vlad.js</span></td>
+          <td class="tsk"><span class="st warn" title="Ответ null верен для строгого режима">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st warn" title="Частично засчитано: sayHi.test остаётся равным 5, а bound.test возвращает undefined">⚠️</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="tsk"><span class="st bad" title="Нет решения задачи про объект города">❌</span></td>
+          <td class="tsk"><span class="st bad" title="Нет решения задачи про call/apply и bind">❌</span></td>
+          <td class="tsk"><span class="st ok">✅</span></td>
+          <td class="comment">Шесть задач выполнены. №1.1 и №1.3 частично засчитаны. №4.1 и №4.2 пропущены.</td>
         </tr>
       </tbody>
     </table>
@@ -314,7 +314,22 @@ setForCity2("population", 1150000);
     <br>— №2.2: вместо <code>bind</code> здесь так же уместна стрелочная обёртка <code>() =&gt; user.login(true)</code> — полезно уметь оба варианта.</p>
   </div>
 
-  <footer>JavaScript · LAD 2026 — Ревью ДЗ №7 · Последнее обновление: 2026-11-12</footer>
+
+  <div class="student-block">
+    <h3><span class="who">Хан Владислав Станиславович</span> · <span class="ctx">ДЗ №7 · index_vlad.js</span></h3>
+
+    <p><span class="note-title strong">Сильные стороны</span><br>В №1.2 верно указано, что первая привязка сохраняет контекст «Васи». В №2.1 объяснена потеря контекста и даны рабочие стрелочные обёртки. В №2.2 они передают нужное значение в <code>user.login()</code>, в №2.3 <code>bind()</code> фиксирует <code>elem</code>. Таймер в №3.1 выводит 3, 2, 1, 0, затем сообщение о завершении, а дальнейшие вызовы молчат. Замыкание в №4.3 сохраняет высоту, примеры дают 60 и 200.</p>
+
+    <h4>Замечания по задачам</h4>
+    <p><span class="note-title">№1.1 — ответ только для строгого режима</span><br>В строгом режиме внутри функции действительно будет <code>null</code>. В обычном браузерном скрипте функция заменяет его глобальным объектом, и <code>alert(this)</code> покажет <code>[object Window]</code>.</p>
+    <p><span class="note-title">№1.3 — частично засчитано</span><br>Верно, что <code>sayHi.test</code> остаётся равным 5. <code>bind()</code> создаёт новую функцию, и свойство <code>test</code> у неё отсутствует. Поэтому <code>alert(bound.test)</code> выводит <code>undefined</code>.</p>
+    <p><span class="note-title">№4.1 — нет объекта города</span><br>Создай <code>city1</code> со свойствами <code>name</code> и <code>population</code> и методами, которые читают их через <code>this</code>.</p>
+    <p><span class="note-title">№4.2 — нет вызовов в контексте второго города</span><br>Создай <code>city2</code>, вызови геттеры <code>city1</code> в его контексте через <code>call()</code> или <code>apply()</code>, затем привяжи <code>setProp()</code> к <code>city2</code> и вызови привязанный метод для изменения свойств.</p>
+
+    <p><span class="note-title strong">Мелочи без снижения оценки</span><br>В №3.1 имя <code>current</code> яснее показывает, что переменная хранит текущее значение счётчика. Автоматический запуск через <code>setInterval()</code> был заданием со звёздочкой.</p>
+  </div>
+
+  <footer>JavaScript · LAD 2026 — Ревью ДЗ №7 · Последнее обновление: 2026-11-18</footer>
 </div>
 
 <script>
