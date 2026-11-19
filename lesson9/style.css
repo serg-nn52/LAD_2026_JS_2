@@ -1,0 +1,43 @@
+.title {
+    font-size: 36px;
+    color: green;
+}
+
+.circle {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
+
+.cross-line {
+    text-decoration: line-through;
+}
+
+.color-red {
+    color: red;
+}
+
+.btn {
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: grey;
+    border: none;
+    cursor: pointer;
+}
