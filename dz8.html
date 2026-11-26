@@ -153,7 +153,7 @@
     <div class="badge">№8</div>
     <div class="header-body">
       <h1>ДЗ №8 — Прототипы и классы</h1>
-      <p class="meta">Проверены все три работы</p>
+      <p class="meta">Проверены четыре работы</p>
     </div>
   </header>
   <div class="header-rule"></div>
@@ -196,6 +196,18 @@
           <td class="comment">Три задачи выполнены, пять засчитаны частично или с замечанием. В №7 реализовано наследование, осталось учесть подчинённых при расчёте зарплаты.</td>
         </tr>
         <tr>
+          <td class="student">Кальянов Никита<span class="file"><a href="https://github.com/KalyanovNikita/HomeWork8/blob/b7750f84f824332031bb1a93d7f0d2663c4b7a21/index.js">index.js</a></span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st warn" title="Отсутствует getFullName(), ставка принимает Infinity">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="ucWords() повторяет логику ucFirst()">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="Ошибки в проверке телефона и домена в email">⚠️</span></td>
+          <td class="tsk"><span class="st warn" title="Верный результат, повторяется формула Worker">⚠️</span></td>
+          <td class="tsk"><span class="st bad" title="Классы User и Student отсутствуют">❌</span></td>
+          <td class="comment">Три задачи выполнены, четыре с замечаниями. Решение №8 отсутствует.</td>
+        </tr>
+        <tr>
           <td class="student">Новокшонова Наталья Сергеевна<span class="file">index8_natalia.js</span></td>
           <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
           <td class="tsk"><span class="st warn" title="Вывод верный, но не объяснено, почему this указывает на rabbit">⚠️</span></td>
@@ -236,6 +248,16 @@
     <p><span class="note-title strong">Мелочи без снижения оценки</span><br>В №1 <code>Postcard.prototype.show.call(postcard1)</code> корректно передаёт контекст. Для примера достаточно обычного вызова <code>postcard1.show()</code>. В №3 имя переменной <code>workernew</code> можно упростить до <code>worker</code>. В №6* проверки email и телефона допускают более широкий ввод, чем в условии.</p>
   </div>
   <div class="student-block">
+    <h3>Кальянов Никита <span class="ctx">· ДЗ №8 · index.js</span></h3>
+    <p><span class="note-title strong">Сильные стороны</span><br>Оба метода открытки вынесены в прототип. В №2 верно объяснено, почему свойство <code>full</code> появляется у <code>rabbit</code>. В №3 работник возвращает полное имя и зарплату 60 000.</p>
+    <h4>Замечания по задачам</h4>
+    <p><span class="note-title">№4 — методы Worker и проверка ставки</span><br>Сеттер дней сохраняет прежнее значение при ошибке. Однако в обновлённом классе пропал <code>getFullName()</code>, поэтому вызов из №3 завершается с <code>TypeError</code>. Верни метод и используй геттеры <code>this.name</code> и <code>this.surname</code>. Сеттер ставки отклоняет <code>NaN</code>, но принимает <code>Infinity</code>. При 22 отработанных днях зарплата становится бесконечной. Принимай ставку только при <code>Number.isFinite(value) &amp;&amp; value &gt; 0</code>. <a href="https://github.com/KalyanovNikita/HomeWork8/blob/b7750f84f824332031bb1a93d7f0d2663c4b7a21/index.js#L78-L142">Строки 78–142</a></p>
+    <p><span class="note-title">№5 — повторяется логика ucFirst()</span><br>Все три метода дают ожидаемый результат, в том числе для пустой строки. В <code>ucWords()</code> повторяется обработка первой буквы. Замени колбэк в <code>map()</code> на <code>word =&gt; this.ucFirst(word)</code>, чтобы правило изменения регистра было в одном месте. <a href="https://github.com/KalyanovNikita/HomeWork8/blob/b7750f84f824332031bb1a93d7f0d2663c4b7a21/index.js#L165-L183">Строки 165–183</a></p>
+    <p><span class="note-title">№6* — форматы телефона и домена в email</span><br>Проверки домена и формата даты работают. Метод <code>isPhone()</code> отклоняет <code>+79001234567</code> и принимает <code>79001234567</code>. Используй шаблон <code>/^(?:\+7|8)\d{10}$/</code>. Метод <code>isEmail()</code> принимает <code>a@mail.1</code>, хотя <code>isDomain("mail.1")</code> возвращает <code>false</code>. При проверке адреса передавай доменную часть в <code>isDomain()</code>. <a href="https://github.com/KalyanovNikita/HomeWork8/blob/b7750f84f824332031bb1a93d7f0d2663c4b7a21/index.js#L199-L220">Строки 199–220</a></p>
+    <p><span class="note-title">№7 — повторяется расчёт зарплаты</span><br>Начальник наследует <code>getFullName()</code> и получает 1 000 000 в примере из условия. В <code>Boss.getSalary()</code> замени произведение ставки и дней на <code>super.getSalary()</code> и умножь результат на <code>this.workers</code>. Тогда изменение формулы у работника будет учитываться и у начальника. <a href="https://github.com/KalyanovNikita/HomeWork8/blob/b7750f84f824332031bb1a93d7f0d2663c4b7a21/index.js#L240-L266">Строки 240–266</a></p>
+    <p><span class="note-title">№8 — отсутствуют User и Student</span><br>Добавь класс <code>User</code> с методом <code>getFullName()</code> и класс <code>Student extends User</code> со свойством <code>year</code>. В <code>getCourse()</code> вычисли текущий год минус год поступления плюс один. Проверь пример с поступлением в 2024 году — в ноябре 2026 должен получиться третий курс.</p>
+  </div>
+  <div class="student-block">
     <h3>Новокшонова Наталья Сергеевна <span class="ctx">· ДЗ №8 · index8_natalia.js</span></h3>
     <p><span class="note-title strong">Сильные стороны</span><br>Методы открытки вынесены в прототип, <code>ucWords()</code> переиспользует <code>ucFirst()</code> и обрабатывает пустую строку. В задаче со звёздочкой про <code>Student</code> курс правильно меняется 1 сентября.</p>
     <h4>Замечания по задачам</h4>
@@ -254,7 +276,7 @@
     <p><span class="note-title strong">Мелочи без снижения оценки</span><br>В №4 проверка <code>typeof value !== "number"</code> в сеттере <code>days</code> избыточна: <code>Number.isInteger(value)</code> уже отклоняет значения других типов. Проверка целого неотрицательного числа работает. В №6* можно переиспользовать <code>isDomain()</code> в <code>isEmail()</code>, чтобы проверять доменную часть по тем же правилам.</p>
   </div>
 
-  <footer>JavaScript · LAD 2026 · 18 ноября 2026</footer>
+  <footer>JavaScript · LAD 2026 · 26 ноября 2026</footer>
 </div>
 
 <script>
