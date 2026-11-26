@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДЗ №9 — Ревью JavaScript LAD 2026</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #151d2b;
+    --text-primary: #f0f4f8;
+    --text-secondary: #b6c2d1;
+    --text-muted: #8da0b5;
+    --border: #24324a;
+    --accent-blue: #38bdf8;
+    --accent-purple: #818cf8;
+    --accent-green: #4ade80;
+    --accent-yellow: #facc15;
+    --accent-red: #f87171;
+    --code-bg: #0d1220;
+    --ok-bg: rgba(74, 222, 128, .14);
+    --warn-bg: rgba(250, 204, 21, .14);
+    --bad-bg: rgba(248, 113, 113, .14);
+    --row-hover: #1a2332;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  }
+  :root[data-theme="light"] {
+    --bg-primary: #f7f9fc;
+    --bg-secondary: #eef2f7;
+    --bg-card: #ffffff;
+    --text-primary: #101828;
+    --text-secondary: #344054;
+    --text-muted: #667085;
+    --border: #d0d5dd;
+    --accent-blue: #0b7ecf;
+    --accent-purple: #5b21b6;
+    --accent-green: #0d8a3d;
+    --accent-yellow: #b5740a;
+    --accent-red: #c42318;
+    --code-bg: #f3f6fa;
+    --ok-bg: rgba(13, 138, 61, .10);
+    --warn-bg: rgba(181, 116, 10, .10);
+    --bad-bg: rgba(196, 35, 24, .10);
+    --row-hover: #e6ebf3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  a { color: var(--accent-blue); }
+  .sheet { max-width: 980px; margin: 0 auto; padding: 36px 20px; }
+
+  .theme-toggle {
+    position: fixed; right: 20px; top: 20px;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    font-size: 13px; font-family: var(--font-sans);
+  }
+  .theme-toggle:hover { color: var(--accent-blue); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 0 20px; padding: 6px 14px; font-size: 13.5px; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; text-decoration: none; cursor: pointer;
+  }
+  .back-link:hover { color: var(--accent-blue); }
+
+  .header { display: flex; gap: 16px; align-items: flex-start; }
+  .badge {
+    flex: 0 0 auto; width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    box-shadow: 0 6px 18px rgba(56, 189, 248, .18);
+  }
+  .header-body h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+  .meta { font-size: 14px; color: var(--text-muted); margin: 0; }
+  .meta strong { color: var(--text-secondary); font-weight: 600; }
+  .header-rule {
+    height: 4px; margin: 20px 0 26px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple),
+                var(--accent-green), var(--accent-yellow), var(--accent-red));
+    border-radius: 2px; opacity: .85;
+  }
+
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .legend .key { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: middle; }
+  .legend .key.ok { background: var(--ok-bg); border: 1px solid var(--accent-green); }
+  .legend .key.warn { background: var(--warn-bg); border: 1px solid var(--accent-yellow); }
+  .legend .key.bad { background: var(--bad-bg); border: 1px solid var(--accent-red); }
+
+  h2.section { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; margin: 26px 0 12px; }
+  .hint-line { font-size: 13.5px; color: var(--text-muted); margin: 4px 0 14px; }
+
+  .table-scroll { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border: 1px solid var(--border); }
+  th, td { padding: 8px 11px; text-align: left; vertical-align: top; }
+  thead th { background: var(--bg-secondary); color: var(--text-secondary); font-weight: 700; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--row-hover); }
+
+  td.student { font-weight: 700; }
+  td.student .file { display: block; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); }
+  th.tsk { width: 46px; text-align: center; }
+  td.tsk { text-align: center; }
+  td.tsk .st { display: inline-block; width: 24px; height: 24px; line-height: 22px; border-radius: 7px; font-size: 13px; }
+  .st.ok   { background: var(--ok-bg);   color: var(--accent-green);  border: 1px solid var(--accent-green); }
+  .st.warn { background: var(--warn-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .st.bad  { background: var(--bad-bg);  color: var(--accent-red);    border: 1px solid var(--accent-red); }
+  .st.na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--border); }
+  td.comment { min-width: 220px; font-size: 13px; color: var(--text-secondary); }
+  td.comment code {
+    font-family: var(--font-mono); font-size: .88em;
+    background: var(--code-bg); color: var(--accent-blue);
+    border: 1px solid var(--border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+  }
+
+  .student-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin: 12px 0; }
+  .student-block h3 { font-size: 15px; font-weight: 700; margin: 0 0 8px; }
+  .student-block h3 .who { color: var(--text-primary); }
+  .student-block h3 .ctx { color: var(--text-muted); font-weight: 500; font-size: 13px; }
+  .student-block h4 { font-size: 14px; margin: 14px 0 0; }
+  .student-block p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  pre {
+    margin: 8px 0; overflow-x: auto;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.55;
+  }
+  pre code { font-family: var(--font-mono); color: var(--text-primary); }
+  .note-title { font-weight: 700; color: var(--accent-red); }
+  .note-title.strong { color: var(--accent-green); }
+
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">🌓 Тема</button>
+
+  <a class="back-link" href="review.html">← К сводке</a>
+
+  <header class="header">
+    <div class="badge">№9</div>
+    <div class="header-body">
+      <h1>ДЗ №9 — DOM и события</h1>
+      <p class="meta">Проверены все три работы · <a href="home_works/hw9/9_BaseJS.html">Условия задания</a></p>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <div class="legend">
+    <span><span class="key ok"></span> выполнено</span>
+    <span><span class="key warn"></span> частично засчитано или засчитано с замечанием</span>
+    <span><span class="key bad"></span> не выполнено</span>
+    <span>— без кода / не проверялось</span>
+  </div>
+
+  <h2 class="section">Матрица задач</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Студент</th>
+          <th scope="col" class="tsk" title="Создание интерфейса через JavaScript" aria-label="1. Создание интерфейса через JavaScript">1</th>
+          <th scope="col" class="tsk" title="Добавление задач в список" aria-label="2. Добавление задач в список">2</th>
+          <th scope="col" class="tsk" title="Удаление или зачёркивание через делегирование событий" aria-label="3. Удаление или зачёркивание через делегирование событий">3</th>
+          <th scope="col">Комментарий</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student">Кальянов Никита<span class="file"><a href="https://github.com/KalyanovNikita/HomeWork9-To-Do-List-/blob/89c957ba625f52c857ff68eabc0e30e8924096ac/script.js">script.js</a></span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="comment">Все три задачи выполнены. Работают зачёркивание и удаление.</td>
+        </tr>
+        <tr>
+          <td class="student">Новокшонова Наталья Сергеевна<span class="file"><a href="home_works/hw9/natalia/index.js">index.js</a></span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="comment">Все три задачи выполнены. Повторный клик снимает зачёркивание.</td>
+        </tr>
+        <tr>
+          <td class="student">Хан Владислав Станиславович<span class="file"><a href="https://github.com/vlkha3/Homeworks/blob/7a4db521c801b4c238a1a27724ea780f57a6417b/js/hw9/script.js">script.js</a></span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st ok" title="Выполнено">✅</span></td>
+          <td class="tsk"><span class="st bad" title="Обработчик клика на списке отсутствует">❌</span></td>
+          <td class="comment">Две задачи выполнены. В №3 отсутствует обработчик клика по задаче.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Во всех трёх работах браузерная проверка подтвердила, что две задачи добавляются по порядку, поле после добавления очищается, а пустая строка и пробелы не создают запись. Строка <code>&lt;b&gt;Пример&lt;/b&gt;</code> отображается вместе с угловыми скобками.</p>
+  <h2 class="section">Подробные комментарии</h2>
+  <div class="student-block">
+    <h3>Кальянов Никита <span class="ctx">· ДЗ №9 · script.js</span></h3>
+    <p><span class="note-title strong">Сильные стороны</span><br>Один обработчик на списке различает клик по тексту и по кнопке «Удалить». Первый переключает зачёркивание, второй удаляет только выбранную задачу. Клик по пустому месту сохраняет список.</p>
+    <p><span class="note-title strong">Мелочи без снижения оценки</span><br>Для запуска из папки проекта укажи в HTML относительный путь <code>./script.js</code>. Текущий <code>/script.js</code> требует размещения проекта в корне сайта.</p>
+  </div>
+  <div class="student-block">
+    <h3>Новокшонова Наталья Сергеевна <span class="ctx">· ДЗ №9 · index.js</span></h3>
+    <p><span class="note-title strong">Сильные стороны</span><br>Обработчик списка находит задачу через <code>closest("li")</code>. Первый клик зачёркивает текст, второй снимает зачёркивание. Клик по пустому месту ничего не меняет. Клавиша Enter вызывает тот же обработчик добавления, что и кнопка.</p>
+  </div>
+  <div class="student-block">
+    <h3>Хан Владислав Станиславович <span class="ctx">· ДЗ №9 · script.js</span></h3>
+    <p><span class="note-title strong">Сильные стороны</span><br>Интерфейс создаётся через JavaScript. Кнопка добавляет задачи по порядку и очищает поле. Проверка через <code>trim()</code> отсекает пустой ввод, а <code>textContent</code> выводит угловые скобки как текст.</p>
+    <h4>Замечания по задачам</h4>
+    <p><span class="note-title">№3 — действие по клику на задачу</span><br>Клик по добавленной задаче ничего не меняет. Добавь один обработчик <code>click</code> на <code>ul</code>. Найди строку через <code>event.target.closest("li")</code> и, если она найдена, вызови <code>li.remove()</code>. Проверь удаление второй задачи и клик по пустому списку.</p>
+    <p><span class="note-title strong">Мелочи без снижения оценки</span><br>Для запуска из папки ДЗ укажи в HTML <code>./script.js</code> вместо <code>/js/hw9/script.js</code>.</p>
+  </div>
+
+  <footer>JavaScript · LAD 2026 · 26 ноября 2026</footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    function apply(t) {
+      root.dataset.theme = t;
+      try { localStorage.setItem('hw-review-dz9-theme', t); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('hw-review-dz9-theme'); } catch (e) {}
+    if (saved === 'light') apply('light');
+    btn.addEventListener('click', function () {
+      apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+  })();
+</script>
+</body>
+</html>
