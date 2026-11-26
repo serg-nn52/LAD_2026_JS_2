@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f1f5f9;
+  color: #17243a;
+  font: 1.1rem/1.5 Inter, system-ui, sans-serif;
+}
+
+main {
+  max-width: 40rem;
+  margin: clamp(1rem, 8vh, 5rem) auto;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  background: white;
+  border-radius: 1rem;
+}
+
+h1 {
+  margin: 0 0 1.5rem;
+}
+
+.entry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: .4rem 0 .8rem;
+}
+
+#task-input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  border: 1px solid #74849a;
+}
+
+button, #task-input {
+  font: inherit;
+  padding: .55rem .9rem;
+  border-radius: .45rem;
+}
+
+button {
+  border: 0;
+  color: white;
+  background: #244b83;
+  cursor: pointer;
+}
+
+#suggestion-button {
+  color: #163c71;
+  background: #e2edfc;
+}
+
+#suggestion-button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+#suggestion-status {
+  min-height: 1.5em;
+  margin: .4rem 0;
+}
+
+ul {
+  padding-left: 1.4rem;
+  overflow-wrap: anywhere;
+}
+
+li {
+  margin: .4rem 0;
+}
+
+details {
+  margin-top: 2rem;
+  border-top: 1px solid #d6dee9;
+  padding-top: 1rem;
+}
+
+summary {
+  cursor: pointer;
+}
+
+details label {
+  display: block;
+  margin-top: .65rem;
+}

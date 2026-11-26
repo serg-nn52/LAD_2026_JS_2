@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Список дел · Лекция 10</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Список дел</h1>
+    <form id="task-form">
+      <label for="task-input">Новая задача</label>
+      <div class="entry">
+        <input id="task-input" required autocomplete="off">
+        <button type="submit">Добавить</button>
+      </div>
+    </form>
+    <button type="button" id="suggestion-button">Подсказать задачу</button>
+    <p id="suggestion-status" role="status"></p>
+    <ul id="task-list">
+      <li>Повторить обработку событий</li>
+      <li>Разобрать пример с таймером</li>
+    </ul>
+    <details>
+      <summary>Проверка ошибки</summary>
+      <label><input type="checkbox" id="simulate-error"> Отклонять промис при запросе подсказки</label>
+    </details>
+  </main>
+</body>
+</html>
